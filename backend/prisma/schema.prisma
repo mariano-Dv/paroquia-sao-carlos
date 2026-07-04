@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUM DE ROLES
+enum Role {
+  USER
+  ADMIN
+}
+
+// USUÁRIO (LOGIN)
+model User {
+  id            String   @id @default(uuid())
+
+  nome          String
+  email         String   @unique
+  password      String
+
+  numeroMembro  String?
+  morada        String?
+  telefone      String?
+
+  role          Role     @default(USER)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("users")
+}
+
+// MEMBROS DA IGREJA
+model Membro {
+  id        String   @id @default(uuid())
+
+  nome      String
+  email     String   @unique
+  telefone  String?
+  dataNasc  DateTime?
+
+  ativo     Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("membros")
+}
+
+// CULTOS / EVENTOS
+model Culto {
+  id        String   @id @default(uuid())
+
+  titulo    String
+  data      DateTime
+  descricao String?
+
+  createdAt DateTime @default(now())
+
+  @@map("cultos")
+}
+
+// NOTÍCIAS
+model Noticia {
+  id        String   @id @default(uuid())
+
+  titulo    String
+  conteudo  String
+  imagem    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("noticias")
+}
+
+// GALERIA
+model Galeria {
+  id        String   @id @default(uuid())
+
+  titulo    String?
+  imagemUrl String
+
+  createdAt DateTime @default(now())
+
+  @@map("galeria")
+}
