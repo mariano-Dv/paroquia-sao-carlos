@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Mail, User } from "lucide-react";
 
 
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
 export default function AdminLoginPage() {
