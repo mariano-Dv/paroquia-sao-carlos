@@ -53,7 +53,7 @@ export default function Hero() {
           </h1>
 
           <h2 className="text-yellow-400 text-xl md:text-2xl mt-3 font-semibold">
-            São Carlos Luanda
+            São Carlos Lwanga
           </h2>
 
           <p className="text-gray-200 mt-4 text-base md:text-lg leading-relaxed">

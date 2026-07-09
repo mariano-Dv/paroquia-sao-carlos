@@ -1,38 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import { Menu, X, HandHeart, LogIn } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null);
-
-  // 🔥 CARREGA USUÁRIO DO LOCALSTORAGE
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-
-    if (user) {
-      try {
-        const parsed = JSON.parse(user);
-        setUserName(parsed.nome || parsed.name || null);
-      } catch (err) {
-        console.log("Erro ao ler user:", err);
-      }
-    }
-  }, []);
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
-
       <div className="backdrop-blur-md bg-[#061a3a]/90 border-b border-white/10 shadow-lg">
 
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
 
           {/* LOGO */}
-          <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-yellow-400 shadow-lg">
               <img
                 src="/images/logo.png"
+                alt="Logo"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -47,43 +33,59 @@ export default function Navbar() {
               </div>
 
               <div className="text-white text-sm">
-                Luanda
+                Lwanga
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* MENU DESKTOP */}
           <nav className="hidden md:flex items-center gap-6 text-sm text-white">
 
-            <a className="hover:text-yellow-400 transition">Início</a>
-            <a className="hover:text-yellow-400 transition">Sobre</a>
-            <a className="hover:text-yellow-400 transition">Missão</a>
-            <a className="hover:text-yellow-400 transition">Galeria</a>
-            <a className="hover:text-yellow-400 transition">Notícias</a>
-            <a className="hover:text-yellow-400 transition">Contato</a>
+            <Link href="/" className="hover:text-yellow-400 transition">
+              Início
+            </Link>
 
-            {/* 🔥 NOME DINÂMICO DO USER */}
-            {userName && (
-              <span className="ml-2 text-yellow-400 font-semibold">
-                Bem-vindo, {userName}
-              </span>
-            )}
+            <Link href="/sobre" className="hover:text-yellow-400 transition">
+              Sobre
+            </Link>
 
-            {/* PEDIDOS */}
-            <button className="flex items-center gap-2 bg-yellow-500 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-400 transition">
+            <Link href="/missao" className="hover:text-yellow-400 transition">
+              Missão
+            </Link>
+
+            <Link href="/galeria" className="hover:text-yellow-400 transition">
+              Galeria
+            </Link>
+
+            <Link href="/noticias" className="hover:text-yellow-400 transition">
+              Notícias
+            </Link>
+
+            <Link href="/contato" className="hover:text-yellow-400 transition">
+              Contato
+            </Link>
+
+            {/* FAZER PEDIDO */}
+            <Link
+              href="/login"
+              className="flex items-center gap-2 bg-yellow-500 text-black px-4 py-2 rounded-full font-semibold hover:bg-yellow-400 transition"
+            >
               <HandHeart size={18} />
-              Pedidos
-            </button>
+              Fazer Pedido
+            </Link>
 
-            {/* ÁREA RESTRITA */}
-            <button className="flex items-center gap-2 border border-yellow-400 text-yellow-300 px-4 py-2 rounded-full hover:bg-yellow-400 hover:text-black transition">
+            {/* ÁREA ADMINISTRATIVA */}
+            <Link
+              href="/admin/login"
+              className="flex items-center gap-2 border border-yellow-400 text-yellow-300 px-4 py-2 rounded-full hover:bg-yellow-400 hover:text-black transition"
+            >
               <LogIn size={18} />
-              Área Restrita
-            </button>
+              Área Administrativa
+            </Link>
 
           </nav>
 
-          {/* MOBILE */}
+          {/* BOTÃO MOBILE */}
           <button
             className="md:hidden text-white"
             onClick={() => setOpen(!open)}
@@ -93,34 +95,77 @@ export default function Navbar() {
 
         </div>
 
-        {/* MOBILE MENU */}
+        {/* MENU MOBILE */}
         {open && (
           <div className="md:hidden px-6 pb-4 text-white space-y-3">
 
-            <p>Início</p>
-            <p>Sobre</p>
-            <p>Missão</p>
-            <p>Galeria</p>
-            <p>Notícias</p>
-            <p>Contato</p>
+            <Link
+              href="/"
+              className="block hover:text-yellow-400"
+              onClick={() => setOpen(false)}
+            >
+              Início
+            </Link>
 
-            {userName && (
-              <p className="text-yellow-400 font-semibold">
-                Bem-vindo, {userName}
-              </p>
-            )}
+            <Link
+              href="/sobre"
+              className="block hover:text-yellow-400"
+              onClick={() => setOpen(false)}
+            >
+              Sobre
+            </Link>
+
+            <Link
+              href="/missao"
+              className="block hover:text-yellow-400"
+              onClick={() => setOpen(false)}
+            >
+              Missão
+            </Link>
+
+            <Link
+              href="/galeria"
+              className="block hover:text-yellow-400"
+              onClick={() => setOpen(false)}
+            >
+              Galeria
+            </Link>
+
+            <Link
+              href="/noticias"
+              className="block hover:text-yellow-400"
+              onClick={() => setOpen(false)}
+            >
+              Notícias
+            </Link>
+
+            <Link
+              href="/contato"
+              className="block hover:text-yellow-400"
+              onClick={() => setOpen(false)}
+            >
+              Contato
+            </Link>
 
             <div className="pt-2 space-y-2">
 
-              <button className="flex items-center gap-2 bg-yellow-500 text-black px-4 py-2 rounded-full w-full justify-center">
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 bg-yellow-500 text-black px-4 py-2 rounded-full w-full justify-center font-semibold hover:bg-yellow-400 transition"
+              >
                 <HandHeart size={18} />
-                Pedidos
-              </button>
+                Fazer Pedido
+              </Link>
 
-              <button className="flex items-center gap-2 border border-yellow-400 text-yellow-300 px-4 py-2 rounded-full w-full justify-center">
+              <Link
+                href="/admin/login"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 border border-yellow-400 text-yellow-300 px-4 py-2 rounded-full w-full justify-center hover:bg-yellow-400 hover:text-black transition"
+              >
                 <LogIn size={18} />
-                Área Restrita
-              </button>
+                Área Administrativa
+              </Link>
 
             </div>
 

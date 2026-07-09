@@ -7,84 +7,308 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ENUM DE ROLES
-enum Role {
-  USER
-  ADMIN
-}
 
-// USUÁRIO (LOGIN)
 model User {
-  id            String   @id @default(uuid())
 
-  nome          String
-  email         String   @unique
-  password      String
+  id           String        @id @default(uuid())
+  nome         String
+  email        String        @unique
+  password     String
+  numeroMembro String?
+  morada       String?
+  telefone     String?
+  role         Role          @default(USER)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
-  numeroMembro  String?
-  morada        String?
-  telefone      String?
-
-  role          Role     @default(USER)
-
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  notificacoes Notificacao[]
+  pedidos      Pedido[]
 
   @@map("users")
+
 }
 
-// MEMBROS DA IGREJA
+
+
+
+
+model Notificacao {
+
+  id        String   @id @default(uuid())
+  titulo    String
+  mensagem  String
+  lida      Boolean  @default(false)
+
+  userId    String
+
+  pedidoId  String?
+
+  createdAt DateTime @default(now())
+
+
+  pedido    Pedido?  @relation(fields:[pedidoId], references:[id])
+
+  user      User     @relation(fields:[userId], references:[id])
+
+
+  @@map("notificacoes")
+
+}
+
+
+
+
+
+
+
+model Pedido {
+
+
+  id             String        @id @default(uuid())
+
+  tipo           TipoPedido
+
+  status         StatusPedido  @default(PENDENTE)
+
+
+  userId         String?
+
+
+  nomeCompleto   String
+
+  dataNascimento DateTime?
+
+  sexo           String?
+
+  nomePai        String?
+
+  nomeMae        String?
+
+  endereco       String?
+
+  telefone       String?
+
+  email          String?
+
+
+  observacao     String?
+
+
+  visivelParaUsuario Boolean @default(true)
+
+
+
+  createdAt      DateTime @default(now())
+
+  updatedAt      DateTime @updatedAt
+
+
+
+  notificacoes   Notificacao[]
+
+
+  user           User? @relation(fields:[userId], references:[id])
+
+
+  @@map("pedidos")
+
+
+}
+
+
+
+
+
+
+
 model Membro {
+
   id        String   @id @default(uuid())
 
   nome      String
+
   email     String   @unique
+
   telefone  String?
+
   dataNasc  DateTime?
 
-  ativo     Boolean  @default(true)
+  ativo     Boolean @default(true)
 
   createdAt DateTime @default(now())
+
   updatedAt DateTime @updatedAt
 
+
+
   @@map("membros")
+
 }
 
-// CULTOS / EVENTOS
+
+
+
+
+
+
 model Culto {
+
   id        String   @id @default(uuid())
 
   titulo    String
+
   data      DateTime
+
   descricao String?
 
   createdAt DateTime @default(now())
 
+
+
   @@map("cultos")
+
 }
 
-// NOTÍCIAS
+
+
+
+
+
+
 model Noticia {
+
   id        String   @id @default(uuid())
 
   titulo    String
+
   conteudo  String
+
   imagem    String?
 
   createdAt DateTime @default(now())
+
   updatedAt DateTime @updatedAt
 
+
+
   @@map("noticias")
+
 }
 
-// GALERIA
+
+
+
+
+
+
 model Galeria {
-  id        String   @id @default(uuid())
 
-  titulo    String?
-  imagemUrl String
 
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+
+
+  titulo      String?
+
+
+  descricao   String?
+
+
+  imagemUrl   String
+
+
+  createdAt   DateTime @default(now())
+
+
 
   @@map("galeria")
+
+
+}
+
+
+
+
+
+
+
+model pedidos_batismo {
+
+
+  id             String   @id
+
+  nomeCompleto   String
+
+  dataNascimento DateTime
+
+  sexo           String
+
+  nomePai        String
+
+  nomeMae        String
+
+  endereco       String
+
+  telefone       String
+
+  email          String
+
+  status         String @default("PENDENTE")
+
+  createdAt      DateTime @default(now())
+
+  updatedAt      DateTime @updatedAt
+
+
+}
+
+
+
+
+
+
+
+enum Role {
+
+  USER
+
+  ADMIN
+
+}
+
+
+
+
+
+
+
+enum TipoPedido {
+
+  BATISMO
+
+  PRIMEIRA_COMUNHAO
+
+  CRISMA
+
+  CATEQUESE
+
+}
+
+
+
+
+
+
+
+enum StatusPedido {
+
+  PENDENTE
+
+  EM_ANALISE
+
+  APROVADO
+
+  CONCLUIDO
+
+  CANCELADO
+
 }

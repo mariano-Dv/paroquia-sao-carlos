@@ -43,7 +43,7 @@ export default function AuthPage() {
         localStorage.setItem("user", JSON.stringify(data.user));
 
         // 🚀 REDIRECIONAMENTO PARA A IGREJA
-        router.push("/");
+        router.push("/dashboard");
 
       } else {
         // REGISTER

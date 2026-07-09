@@ -1,15 +1,42 @@
 import { NestFactory } from '@nestjs/core';
+
 import { AppModule } from './app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+import { join } from 'path';
 
-  // 🔥 CORS CONFIG
-  app.enableCors({
-    origin: 'http://localhost:3001',
-    credentials: true,
-  });
+import { NestExpressApplication } from '@nestjs/platform-express';
+
+
+
+async function bootstrap() {
+
+
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule
+  );
+
+
+
+  // Permitir acesso aos arquivos da pasta uploads
+
+  app.useStaticAssets(
+    join(__dirname, '..', 'uploads'),
+    {
+      prefix: '/uploads/',
+    }
+  );
+
+
+
+
+  app.enableCors();
+
+
 
   await app.listen(3000);
+
+
 }
+
+
 bootstrap();

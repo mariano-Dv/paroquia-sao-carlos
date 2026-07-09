@@ -9,11 +9,11 @@ export default function SaoCarlos() {
         {/* ESQUERDA — BIOGRAFIA */}
         <div>
           <h2 className="text-white text-2xl font-bold">
-            São Carlos Luanda
+            São Carlos Lwanda
           </h2>
 
           <p className="mt-4 text-gray-300 leading-relaxed text-sm md:text-base">
-            São Carlos Luanga foi um catequista e mártir angolano.
+            São Carlos Lwanga foi um catequista e mártir angolano.
             Exemplo de fé, humildade e amor a Cristo.
             A sua vida inspira a caminhada cristã da nossa comunidade até hoje.
           </p>
