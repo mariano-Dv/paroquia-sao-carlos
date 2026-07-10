@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { UserCircle, Bell, Check } from "lucide-react";
+import { UserCircle, Bell, Check, Menu, X } from "lucide-react";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 export default function DashboardNavbar() {
 
@@ -17,6 +18,8 @@ export default function DashboardNavbar() {
   const [totalNaoLidas, setTotalNaoLidas] = useState(0);
 
   const [mostrarNotificacoes, setMostrarNotificacoes] = useState(false);
+
+  const [menuAberto, setMenuAberto] = useState(false);
 
 
 
@@ -30,17 +33,18 @@ export default function DashboardNavbar() {
 
     if(savedUser){
 
+
       const usuario = JSON.parse(savedUser);
 
       setUser(usuario);
 
       carregarNotificacoes(usuario.id);
 
+
     }
 
 
   }, []);
-
 
 
 
@@ -75,19 +79,21 @@ export default function DashboardNavbar() {
       ).length;
 
 
+
       setTotalNaoLidas(pendentes);
 
 
 
     }catch(error){
 
+
       console.log(error);
+
 
     }
 
 
   }
-
 
 
 
@@ -125,13 +131,37 @@ export default function DashboardNavbar() {
 
     }catch(error){
 
+
       console.log(error);
+
 
     }
 
 
   }
 
+
+
+
+
+
+
+
+  const links = [
+
+    ["Início","/"],
+
+    ["Sobre","/sobre"],
+
+    ["Missão","/missao"],
+
+    ["Galeria","/galeria"],
+
+    ["Notícias","/noticias"],
+
+    ["Contato","/contato"]
+
+  ];
 
 
 
@@ -153,13 +183,12 @@ shadow-lg
 ">
 
 
+
 <div className="
 max-w-7xl
 mx-auto
-flex
-items-center
-justify-between
-px-6
+px-4
+sm:px-6
 py-3
 ">
 
@@ -167,7 +196,20 @@ py-3
 
 
 
-{/* LOGO */}
+
+<div className="
+flex
+items-center
+justify-between
+gap-3
+">
+
+
+
+
+
+
+{/* LOGO + IDENTIDADE */}
 
 
 <Link
@@ -177,20 +219,24 @@ href="/"
 className="
 flex
 items-center
-gap-4
+gap-3
+min-w-0
 "
 
 >
 
 
 <div className="
-w-14
-h-14
+w-12
+h-12
+sm:w-14
+sm:h-14
 rounded-full
 overflow-hidden
 border-2
 border-yellow-400
 shadow-lg
+flex-shrink-0
 ">
 
 
@@ -214,11 +260,13 @@ object-cover
 
 
 
-<div className="leading-tight">
+
+<div className="leading-tight min-w-0">
 
 
 <div className="
-text-xs
+text-[10px]
+sm:text-xs
 text-gray-300
 tracking-widest
 ">
@@ -229,10 +277,13 @@ PARÓQUIA
 
 
 
+
 <div className="
 text-yellow-400
 font-bold
-text-lg
+text-base
+sm:text-lg
+truncate
 ">
 
 São Carlos
@@ -241,9 +292,11 @@ São Carlos
 
 
 
+
 <div className="
 text-white
-text-sm
+text-xs
+sm:text-sm
 ">
 
 Lwanga
@@ -251,21 +304,15 @@ Lwanga
 </div>
 
 
+
 </div>
+
 
 
 </Link>
 
 
-
-
-
-
-
-
-
-{/* LINKS */}
-
+{/* MENU DESKTOP */}
 
 <nav className="
 hidden
@@ -276,16 +323,9 @@ text-sm
 text-white
 ">
 
+{
 
-{[
-["Início","/"],
-["Sobre","/sobre"],
-["Missão","/missao"],
-["Galeria","/galeria"],
-["Notícias","/noticias"],
-["Contato","/contato"]
-
-].map(([texto,url])=>(
+links.map(([texto,url])=>(
 
 <Link
 
@@ -304,9 +344,9 @@ transition
 
 </Link>
 
+))
 
-))}
-
+}
 
 </nav>
 
@@ -315,16 +355,13 @@ transition
 
 
 
-
-
-
 {/* ÁREA DIREITA */}
-
 
 <div className="
 flex
 items-center
-gap-5
+gap-2
+sm:gap-4
 ">
 
 
@@ -332,9 +369,7 @@ gap-5
 
 
 
-
 {/* SINO */}
-
 
 <div className="relative">
 
@@ -345,8 +380,8 @@ onClick={()=>setMostrarNotificacoes(!mostrarNotificacoes)}
 
 className="
 relative
-w-12
-h-12
+w-11
+h-11
 rounded-full
 bg-white/10
 hover:bg-yellow-400/20
@@ -361,7 +396,7 @@ transition
 
 <Bell
 
-size={26}
+size={24}
 
 className="text-yellow-400"
 
@@ -369,7 +404,9 @@ className="text-yellow-400"
 
 
 
-{totalNaoLidas > 0 && (
+{
+
+totalNaoLidas > 0 && (
 
 
 <span
@@ -382,8 +419,8 @@ bg-red-600
 text-white
 text-xs
 font-bold
-w-6
-h-6
+w-5
+h-5
 rounded-full
 flex
 items-center
@@ -397,7 +434,9 @@ justify-center
 </span>
 
 
-)}
+)
+
+}
 
 
 
@@ -420,7 +459,8 @@ className="
 absolute
 right-0
 mt-3
-w-80
+w-[300px]
+sm:w-80
 bg-white
 rounded-2xl
 shadow-2xl
@@ -446,7 +486,6 @@ Notificações
 
 
 
-
 <div className="
 max-h-96
 overflow-y-auto
@@ -454,6 +493,7 @@ overflow-y-auto
 
 
 {
+
 notificacoes.length === 0 ?
 
 
@@ -514,18 +554,25 @@ text-sm
 </h3>
 
 
+
 {
+
 !item.lida &&
 
 <Check
+
 size={18}
+
 className="text-green-600"
+
 />
 
 }
 
 
+
 </div>
+
 
 
 
@@ -550,8 +597,8 @@ mt-2
 }
 
 
-</div>
 
+</div>
 
 
 </div>
@@ -573,25 +620,30 @@ mt-2
 
 {/* UTILIZADOR */}
 
-
 <div className="
-flex
+hidden
+sm:flex
 items-center
-gap-3
+gap-2
+max-w-[180px]
 ">
 
 
 <UserCircle
 
-size={42}
+size={38}
 
-className="text-yellow-400"
+className="text-yellow-400 flex-shrink-0"
 
 />
 
 
 
-<div className="leading-tight">
+
+<div className="
+leading-tight
+overflow-hidden
+">
 
 
 <p className="
@@ -608,6 +660,7 @@ Olá 👋
 <p className="
 text-white
 font-semibold
+truncate
 ">
 
 {user?.nome || "Membro"}
@@ -619,6 +672,7 @@ font-semibold
 <p className="
 text-xs
 text-gray-300
+truncate
 ">
 
 {user?.email || ""}
@@ -626,6 +680,64 @@ text-gray-300
 </p>
 
 
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+{/* BOTÃO MENU MOBILE */}
+
+
+<button
+
+onClick={()=>setMenuAberto(!menuAberto)}
+
+className="
+md:hidden
+w-11
+h-11
+rounded-full
+bg-white/10
+flex
+items-center
+justify-center
+text-yellow-400
+"
+
+>
+
+
+{
+
+menuAberto
+
+?
+
+<X size={26}/>
+
+:
+
+<Menu size={26}/>
+
+}
+
+
+
+</button>
+
+
+
+
 </div>
 
 
@@ -638,7 +750,76 @@ text-gray-300
 
 
 
+
+{/* MENU MOBILE */}
+
+
+{
+
+menuAberto && (
+
+
+<div className="
+md:hidden
+mt-4
+bg-[#061a3a]
+rounded-2xl
+p-4
+border
+border-white/10
+">
+
+
+<nav className="
+flex
+flex-col
+gap-4
+text-white
+">
+
+
+{
+
+links.map(([texto,url])=>(
+
+
+<Link
+
+key={url}
+
+href={url}
+
+onClick={()=>setMenuAberto(false)}
+
+className="
+hover:text-yellow-400
+transition
+"
+
+>
+
+{texto}
+
+</Link>
+
+
+))
+
+
+}
+
+
+
+</nav>
+
+
 </div>
+
+
+)
+
+
+}
 
 
 
