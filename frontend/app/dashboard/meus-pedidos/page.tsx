@@ -15,13 +15,10 @@ import {
 } from "lucide-react";
 
 
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
-
 interface Pedido {
-
 
   id:string;
 
@@ -43,34 +40,22 @@ interface Pedido {
 
 
 
-
-
 export default function MeusPedidosPage(){
 
 
   const [pedidos,setPedidos] = useState<Pedido[]>([]);
 
-
   const [user,setUser] = useState<any>(null);
-
 
   const [pesquisa,setPesquisa] = useState("");
 
-
   const [filtro,setFiltro] = useState("Todos");
-
 
   const [pedidoSelecionado,setPedidoSelecionado] = useState<Pedido|null>(null);
 
-
   const [pedidoRemover,setPedidoRemover] = useState<Pedido|null>(null);
 
-
   const [carregando,setCarregando] = useState(true);
-
-
-
-
 
 
 
@@ -98,9 +83,6 @@ export default function MeusPedidosPage(){
 
 
   },[]);
-
-
-
 
 
 
@@ -156,15 +138,12 @@ export default function MeusPedidosPage(){
 
 
 
-
-
   async function removerPedido(){
 
 
     if(!pedidoRemover || !user)
 
       return;
-
 
 
 
@@ -220,7 +199,6 @@ export default function MeusPedidosPage(){
 
 
 
-
   function formatarData(data:string){
 
 
@@ -228,7 +206,6 @@ export default function MeusPedidosPage(){
 
 
   }
-
 
 
 
@@ -262,25 +239,23 @@ export default function MeusPedidosPage(){
 
 
 
-
   function corEstado(status:string){
 
 
     if(status==="APROVADO")
 
-      return "text-green-600 bg-green-100";
+      return "text-green-200 bg-green-900/40 border border-green-600";
 
 
     if(status==="CANCELADO")
 
-      return "text-red-600 bg-red-100";
+      return "text-red-200 bg-red-900/40 border border-red-600";
 
 
-    return "text-yellow-700 bg-yellow-100";
+    return "text-yellow-200 bg-yellow-900/40 border border-yellow-600";
 
 
   }
-
 
 
 
@@ -293,9 +268,13 @@ export default function MeusPedidosPage(){
 
 
     const nome = pedido.tipo
+
       .toLowerCase()
+
       .includes(
+
         pesquisa.toLowerCase()
+
       );
 
 
@@ -325,16 +304,19 @@ export default function MeusPedidosPage(){
 
 
 
+
 return (
 
-<div className="min-h-screen bg-gray-100 p-5 md:p-10">
+<div className="min-h-screen bg-[#050B16] p-4 md:p-10">
 
 
 <div className="max-w-5xl mx-auto">
 
 
 
-<div className="bg-[#061a3a] rounded-3xl p-6 text-white shadow-xl mb-8">
+
+
+<div className="bg-[#061a3a] rounded-3xl p-6 text-white shadow-xl mb-8 border border-yellow-600/20">
 
 
 <h1 className="text-3xl font-bold">
@@ -359,10 +341,7 @@ Consulte os pedidos enviados à secretaria paroquial.
 
 
 
-
-
-
-<div className="bg-white rounded-2xl shadow-md p-5 mb-6">
+<div className="bg-[#091426] rounded-2xl shadow-md p-5 mb-6 border border-gray-700">
 
 
 <div className="flex flex-col md:flex-row gap-4">
@@ -370,6 +349,7 @@ Consulte os pedidos enviados à secretaria paroquial.
 
 
 <div className="flex-1 relative">
+
 
 
 <Search
@@ -382,6 +362,8 @@ size={20}
 
 
 
+
+
 <input
 
 value={pesquisa}
@@ -390,12 +372,27 @@ onChange={(e)=>setPesquisa(e.target.value)}
 
 placeholder="Pesquisar pedido..."
 
-className="w-full border rounded-xl py-3 pl-10 px-4 outline-none"
+className="
+w-full
+border
+border-gray-600
+rounded-xl
+py-3
+pl-10
+px-4
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+"
 
 />
 
 
+
 </div>
+
 
 
 
@@ -407,7 +404,17 @@ value={filtro}
 
 onChange={(e)=>setFiltro(e.target.value)}
 
-className="border rounded-xl px-4 py-3"
+className="
+border
+border-gray-600
+rounded-xl
+px-4
+py-3
+bg-[#0B172A]
+text-white
+outline-none
+focus:border-yellow-500
+"
 
 >
 
@@ -430,17 +437,17 @@ className="border rounded-xl px-4 py-3"
 </div>
 
 
-
-
-
-
-
-
-
 {carregando ? (
 
-
-<div className="bg-white p-10 rounded-2xl text-center">
+<div className="
+bg-[#091426]
+border
+border-gray-700
+p-10
+rounded-2xl
+text-center
+text-white
+">
 
 Carregando pedidos...
 
@@ -454,7 +461,14 @@ Carregando pedidos...
 pedidosFiltrados.length===0 ? (
 
 
-<div className="bg-white rounded-2xl p-10 text-center">
+<div className="
+bg-[#091426]
+border
+border-gray-700
+rounded-2xl
+p-10
+text-center
+">
 
 
 <FileText
@@ -466,7 +480,7 @@ className="mx-auto text-gray-400 mb-4"
 />
 
 
-<p className="text-gray-500">
+<p className="text-gray-300">
 
 Nenhum pedido encontrado.
 
@@ -494,7 +508,20 @@ pedidosFiltrados.map((pedido)=>(
 
 key={pedido.id}
 
-className="bg-white rounded-2xl shadow-md p-5 flex flex-col md:flex-row justify-between gap-5"
+className="
+bg-[#091426]
+border
+border-gray-700
+rounded-2xl
+shadow-md
+p-5
+flex
+flex-col
+md:flex-row
+justify-between
+gap-5
+"
+
 
 >
 
@@ -502,7 +529,11 @@ className="bg-white rounded-2xl shadow-md p-5 flex flex-col md:flex-row justify-
 <div>
 
 
-<h2 className="text-xl font-bold text-[#061a3a]">
+<h2 className="
+text-xl
+font-bold
+text-white
+">
 
 {pedido.tipo}
 
@@ -510,7 +541,13 @@ className="bg-white rounded-2xl shadow-md p-5 flex flex-col md:flex-row justify-
 
 
 
-<div className="flex items-center gap-2 text-gray-500 mt-2">
+<div className="
+flex
+items-center
+gap-2
+text-gray-300
+mt-2
+">
 
 <CalendarDays size={18}/>
 
@@ -524,7 +561,18 @@ className="bg-white rounded-2xl shadow-md p-5 flex flex-col md:flex-row justify-
 
 <span
 
-className={`inline-flex items-center gap-2 mt-3 px-3 py-1 rounded-full text-sm font-semibold ${corEstado(pedido.status)}`}
+className={`
+inline-flex
+items-center
+gap-2
+mt-3
+px-3
+py-1
+rounded-full
+text-sm
+font-semibold
+${corEstado(pedido.status)}
+`}
 
 >
 
@@ -574,9 +622,6 @@ pedido.status!=="APROVADO"
 
 
 
-
-
-
 <div className="flex gap-3">
 
 
@@ -584,7 +629,18 @@ pedido.status!=="APROVADO"
 
 onClick={()=>setPedidoSelecionado(pedido)}
 
-className="flex items-center gap-2 bg-[#061a3a] text-white px-4 py-2 rounded-xl"
+className="
+flex
+items-center
+gap-2
+bg-[#061a3a]
+text-white
+px-4
+py-2
+rounded-xl
+border
+border-yellow-600/30
+"
 
 >
 
@@ -600,11 +656,21 @@ Detalhes
 
 
 
+
 <button
 
 onClick={()=>setPedidoRemover(pedido)}
 
-className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-xl"
+className="
+flex
+items-center
+gap-2
+bg-red-600
+text-white
+px-4
+py-2
+rounded-xl
+"
 
 >
 
@@ -649,16 +715,42 @@ Remover
 {pedidoSelecionado && (
 
 
-<div className="fixed inset-0 bg-black/50 flex items-center justify-center p-5 z-50">
+<div className="
+fixed
+inset-0
+bg-black/60
+flex
+items-center
+justify-center
+p-5
+z-50
+">
 
 
-<div className="bg-white rounded-3xl max-w-md w-full p-6">
+<div className="
+bg-[#091426]
+border
+border-gray-700
+text-white
+rounded-3xl
+max-w-md
+w-full
+p-6
+">
 
 
-<div className="flex justify-between mb-5">
+<div className="
+flex
+justify-between
+mb-5
+">
 
 
-<h2 className="text-xl font-bold text-[#061a3a]">
+<h2 className="
+text-xl
+font-bold
+text-white
+">
 
 Detalhes do Pedido
 
@@ -666,7 +758,13 @@ Detalhes do Pedido
 
 
 
-<button onClick={()=>setPedidoSelecionado(null)}>
+<button
+
+onClick={()=>setPedidoSelecionado(null)}
+
+className="text-gray-300"
+
+>
 
 <X/>
 
@@ -701,7 +799,7 @@ Detalhes do Pedido
 
 
 
-<p className="mt-2">
+<p className="mt-2 text-gray-300">
 
 <strong>Observação:</strong>
 
@@ -731,13 +829,36 @@ Detalhes do Pedido
 {pedidoRemover && (
 
 
-<div className="fixed inset-0 bg-black/50 flex items-center-justify-center p-5 z-50">
+<div className="
+fixed
+inset-0
+bg-black/60
+flex
+items-center
+justify-center
+p-5
+z-50
+">
 
 
-<div className="bg-white rounded-3xl max-w-md w-full p-6 text-center">
+<div className="
+bg-[#091426]
+border
+border-gray-700
+text-white
+rounded-3xl
+max-w-md
+w-full
+p-6
+text-center
+">
 
 
-<h2 className="text-xl font-bold text-[#061a3a] mb-4">
+<h2 className="
+text-xl
+font-bold
+mb-4
+">
 
 Remover pedido?
 
@@ -745,7 +866,10 @@ Remover pedido?
 
 
 
-<p className="text-gray-600 mb-6">
+<p className="
+text-gray-300
+mb-6
+">
 
 Este pedido desaparecerá apenas da sua lista.
 O histórico da paróquia continuará guardado.
@@ -754,14 +878,24 @@ O histórico da paróquia continuará guardado.
 
 
 
-<div className="flex gap-3 justify-center">
+<div className="
+flex
+gap-3
+justify-center
+">
 
 
 <button
 
 onClick={()=>setPedidoRemover(null)}
 
-className="px-5 py-2 rounded-xl bg-gray-200"
+className="
+px-5
+py-2
+rounded-xl
+bg-gray-700
+text-white
+"
 
 >
 
@@ -771,11 +905,19 @@ Cancelar
 
 
 
+
+
 <button
 
 onClick={removerPedido}
 
-className="px-5 py-2 rounded-xl bg-red-500 text-white"
+className="
+px-5
+py-2
+rounded-xl
+bg-red-600
+text-white
+"
 
 >
 
