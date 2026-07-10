@@ -27,8 +27,6 @@ export default function Header() {
   useEffect(()=>{
 
 
-    // Buscar administrador logado
-
     const admin = localStorage.getItem("admin");
 
 
@@ -43,8 +41,6 @@ export default function Header() {
 
 
 
-
-    // Buscar pedidos pendentes
 
     async function carregarPedidos(){
 
@@ -65,8 +61,10 @@ export default function Header() {
 
 
           const pendentes = dados.filter(
+
             (pedido:any)=>
               pedido.status === "PENDENTE"
+
           );
 
 
@@ -81,10 +79,12 @@ export default function Header() {
 
       }catch(error){
 
+
         console.log(
           "Erro ao carregar pedidos",
           error
         );
+
 
       }
 
@@ -107,127 +107,121 @@ export default function Header() {
 
 
 
-  return (
 
-    <header
-      className="
-        h-20
-        bg-white
-        border-b
-        border-gray-200
-        flex
-        items-center
-        justify-between
-        px-8
-        ml-72
-      "
-    >
 
+return (
 
+<header
 
-      {/* TÍTULO */}
+className="
+w-full
+h-auto
+min-h-20
+bg-white
+border-b
+border-gray-200
+flex
+items-center
+px-4
+sm:px-6
+lg:px-8
+py-4
+"
 
-      <div>
+>
 
-        <h1
-          className="
-            text-2xl
-            font-bold
-            text-[#061a3a]
-          "
-        >
 
-          Secretaria Paroquial
+<div
 
-        </h1>
+className="
+w-full
+flex
+flex-col
+sm:flex-row
+items-center
+justify-between
+gap-4
+"
 
+>
 
-        <p
-          className="
-            text-sm
-            text-gray-500
-          "
-        >
 
-          Painel Administrativo • Paróquia São Carlos Lwanga
 
-        </p>
 
 
-      </div>
+{/* TÍTULO */}
 
 
+<div
 
+className="
+w-full
+sm:w-auto
+"
 
+>
 
 
+<h1
 
+className="
+text-xl
+sm:text-2xl
+font-bold
+text-[#061a3a]
+"
 
-      {/* ÁREA DIREITA */}
+>
 
+Secretaria Paroquial
 
-      <div
-        className="
-          flex
-          items-center
-          gap-5
-        "
-      >
+</h1>
 
 
 
+<p
 
+className="
+text-xs
+sm:text-sm
+text-gray-500
+mt-1
+"
 
-        {/* PESQUISA */}
+>
 
+Painel Administrativo • Paróquia São Carlos Lwanga
 
-        <div
-          className="
-            hidden
-            md:flex
-            relative
-          "
-        >
+</p>
 
 
-          <Search
+</div>
 
-            size={19}
 
-            className="
-              absolute
-              left-3
-              top-3
-              text-gray-400
-            "
 
-          />
 
 
 
-          <input
 
 
-            placeholder="Pesquisar..."
 
 
-            className="
-              w-72
-              py-2.5
-              pl-10
-              pr-4
-              rounded-xl
-              border
-              border-gray-200
-              outline-none
-              focus:border-yellow-500
-            "
+{/* ÁREA DIREITA */}
 
 
-          />
+<div
 
+className="
+w-full
+sm:w-auto
+flex
+items-center
+justify-between
+sm:justify-end
+gap-3
+"
 
-        </div>
+>
 
 
 
@@ -235,67 +229,62 @@ export default function Header() {
 
 
 
+{/* PESQUISA */}
 
 
-        {/* NOTIFICAÇÃO DE PEDIDOS */}
+<div
 
+className="
+hidden
+lg:flex
+relative
+"
 
+>
 
-        <button
 
-          className="
-            relative
-            w-11
-            h-11
-            rounded-full
-            bg-gray-100
-            flex
-            items-center
-            justify-center
-            hover:bg-gray-200
-          "
+<Search
 
-        >
+size={19}
 
+className="
+absolute
+left-3
+top-3
+text-gray-400
+"
 
-          <Bell size={21}/>
+/>
 
 
 
 
+<input
 
-          {quantidadePedidos > 0 && (
 
-            <span
+placeholder="Pesquisar..."
 
-              className="
-                absolute
-                -top-1
-                -right-1
-                min-w-5
-                h-5
-                px-1
-                rounded-full
-                bg-red-500
-                text-white
-                text-xs
-                flex
-                items-center
-                justify-center
-                font-bold
-              "
 
-            >
+className="
+w-64
+py-2.5
+pl-10
+pr-4
+rounded-xl
+border
+border-gray-200
+outline-none
+text-sm
+focus:border-yellow-500
+"
 
-              {quantidadePedidos}
+/>
 
-            </span>
 
-          )}
 
+</div>
 
 
-        </button>
 
 
 
@@ -304,93 +293,181 @@ export default function Header() {
 
 
 
+{/* NOTIFICAÇÃO */}
 
-        {/* ADMINISTRADOR */}
 
+<button
 
-        <div
+className="
+relative
+w-11
+h-11
+rounded-full
+bg-gray-100
+flex
+items-center
+justify-center
+hover:bg-gray-200
+transition
+"
 
-          className="
-            flex
-            items-center
-            gap-3
-          "
+>
 
-        >
 
+<Bell size={21}/>
 
-          <UserCircle2
 
-            size={43}
 
-            className="
-              text-yellow-600
-            "
 
-          />
 
+{
 
+quantidadePedidos > 0 && (
 
 
-          <div
+<span
 
-            className="
-              hidden
-              lg:block
-            "
+className="
+absolute
+-top-1
+-right-1
+min-w-5
+h-5
+px-1
+rounded-full
+bg-red-500
+text-white
+text-xs
+flex
+items-center
+justify-center
+font-bold
+"
 
-          >
+>
 
+{quantidadePedidos}
 
-            <p
+</span>
 
-              className="
-                font-semibold
-                text-[#061a3a]
-              "
 
-            >
+)
 
-              {adminNome}
+}
 
-            </p>
 
 
+</button>
 
 
-            <p
 
-              className="
-                text-xs
-                text-gray-500
-              "
 
-            >
 
-              Secretaria Paroquial
 
-            </p>
 
 
 
-          </div>
 
 
 
-        </div>
+{/* ADMINISTRADOR */}
 
 
+<div
 
+className="
+flex
+items-center
+gap-2
+sm:gap-3
+"
 
-      </div>
+>
 
 
+<UserCircle2
 
+size={40}
 
-    </header>
+className="
+text-yellow-600
+flex-shrink-0
+"
 
+/>
 
-  );
+
+
+
+<div
+
+className="
+hidden
+sm:block
+leading-tight
+max-w-[150px]
+"
+
+>
+
+
+<p
+
+className="
+font-semibold
+text-[#061a3a]
+truncate
+"
+
+>
+
+{adminNome}
+
+</p>
+
+
+
+
+<p
+
+className="
+text-xs
+text-gray-500
+"
+
+>
+
+Secretaria Paroquial
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+</header>
+
+
+);
 
 
 }

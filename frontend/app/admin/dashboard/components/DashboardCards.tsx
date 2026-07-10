@@ -16,6 +16,7 @@ import {
 
 import Link from "next/link";
 
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
@@ -42,16 +43,13 @@ export default function DashboardCards(){
       try{
 
 
-        // ==========================
-        // PEDIDOS
-        // ==========================
-
         const respostaPedidos = await fetch(
           `${API_URL}/pedidos`
         );
 
 
-        const dadosPedidos = await respostaPedidos.json();
+        const dadosPedidos =
+        await respostaPedidos.json();
 
 
 
@@ -63,14 +61,13 @@ export default function DashboardCards(){
           );
 
 
-          const pendentes = dadosPedidos.filter(
-            (pedido:any)=>
-              pedido.status === "PENDENTE"
-          );
-
-
           setPedidosPendentes(
-            pendentes.length
+
+            dadosPedidos.filter(
+              (pedido:any)=>
+              pedido.status === "PENDENTE"
+            ).length
+
           );
 
 
@@ -79,9 +76,6 @@ export default function DashboardCards(){
 
 
 
-        // ==========================
-        // GALERIA
-        // ==========================
 
 
         const respostaGaleria = await fetch(
@@ -89,7 +83,8 @@ export default function DashboardCards(){
         );
 
 
-        const dadosGaleria = await respostaGaleria.json();
+        const dadosGaleria =
+        await respostaGaleria.json();
 
 
 
@@ -107,24 +102,18 @@ export default function DashboardCards(){
 
       }catch(error){
 
-
         console.log(
           "Erro ao carregar dados do dashboard",
           error
         );
 
-
       }
-
 
 
     }
 
 
-
-
     carregarDados();
-
 
 
   },[]);
@@ -135,18 +124,17 @@ export default function DashboardCards(){
 
 
 
-  const cards = [
 
+  const cards = [
 
     {
       titulo:"Pedidos Pendentes",
-      valor: pedidosPendentes,
+      valor:pedidosPendentes,
       descricao:"Aguardando análise da secretaria",
       icon:Clock,
       link:true,
       caminho:"/admin/pedidos"
     },
-
 
 
     {
@@ -159,7 +147,6 @@ export default function DashboardCards(){
     },
 
 
-
     {
       titulo:"Membros",
       valor:"0",
@@ -168,7 +155,6 @@ export default function DashboardCards(){
       link:false,
       caminho:"#"
     },
-
 
 
     {
@@ -181,7 +167,6 @@ export default function DashboardCards(){
     },
 
 
-
     {
       titulo:"Galeria",
       valor:totalGaleria,
@@ -190,7 +175,6 @@ export default function DashboardCards(){
       link:true,
       caminho:"/dashboard/galeria"
     },
-
 
 
     {
@@ -211,205 +195,230 @@ export default function DashboardCards(){
 
 
 
+
+
   return (
 
-    <section
 
-      className="
-        grid
-        grid-cols-1
-        sm:grid-cols-2
-        xl:grid-cols-3
-        gap-6
-      "
+<section
 
-    >
+className="
+grid
+grid-cols-1
+sm:grid-cols-2
+xl:grid-cols-3
+gap-4
+md:gap-6
+w-full
+"
 
+>
 
 
-      {cards.map((card,index)=>{
+{
 
+cards.map((card,index)=>{
 
-        const Icon = card.icon;
 
+const Icon = card.icon;
 
 
-        const conteudo = (
 
+const conteudo = (
 
-          <div
 
-            className="
-              bg-white
-              rounded-2xl
-              p-6
-              border
-              border-gray-200
-              shadow-sm
-              hover:shadow-lg
-              transition
-              cursor-pointer
-            "
+<div
 
-          >
+className="
+bg-white
+rounded-2xl
+p-4
+sm:p-6
+border
+border-gray-200
+shadow-sm
+hover:shadow-lg
+transition
+"
 
+>
 
 
-            <div
 
-              className="
-                flex
-                items-center
-                justify-between
-              "
+<div
 
-            >
+className="
+flex
+items-center
+justify-between
+gap-3
+"
 
+>
 
 
-              <div>
 
+<div className="min-w-0">
 
-                <p
 
-                  className="
-                    text-gray-500
-                    text-sm
-                  "
+<p
 
-                >
+className="
+text-gray-500
+text-xs
+sm:text-sm
+truncate
+"
 
-                  {card.titulo}
+>
 
-                </p>
+{card.titulo}
 
+</p>
 
 
-                <h2
 
-                  className="
-                    text-4xl
-                    font-bold
-                    text-[#061a3a]
-                    mt-3
-                  "
 
-                >
+<h2
 
-                  {card.valor}
+className="
+text-3xl
+sm:text-4xl
+font-bold
+text-[#061a3a]
+mt-2
+"
 
-                </h2>
+>
 
+{card.valor}
 
+</h2>
 
-                <p
 
-                  className="
-                    text-xs
-                    text-gray-400
-                    mt-3
-                  "
 
-                >
 
-                  {card.descricao}
+<p
 
-                </p>
+className="
+text-xs
+text-gray-400
+mt-2
+line-clamp-2
+"
 
+>
 
-              </div>
+{card.descricao}
 
+</p>
 
 
 
+</div>
 
 
-              <div
 
-                className="
-                  w-16
-                  h-16
-                  rounded-2xl
-                  bg-yellow-500
-                  flex
-                  items-center
-                  justify-center
-                  shadow-md
-                "
 
-              >
 
 
-                <Icon
 
-                  size={32}
 
-                  className="
-                    text-[#061a3a]
-                  "
+<div
 
-                />
+className="
+w-12
+h-12
+sm:w-16
+sm:h-16
+rounded-xl
+bg-yellow-500
+flex
+items-center
+justify-center
+flex-shrink-0
+shadow-md
+"
 
+>
 
-              </div>
 
+<Icon
 
+size={26}
 
-            </div>
+className="
+sm:w-8
+sm:h-8
+text-[#061a3a]
+"
 
+/>
 
 
-          </div>
+</div>
 
 
-        );
 
+</div>
 
 
 
+</div>
 
 
-        return card.link ? (
+);
 
 
-          <Link
 
-            href={card.caminho}
 
-            key={index}
 
-          >
+return card.link ? (
 
-            {conteudo}
 
+<Link
 
-          </Link>
+href={card.caminho}
 
+key={index}
 
-        ) : (
+className="
+block
+"
 
+>
 
-          <div
+{conteudo}
 
-            key={index}
+</Link>
 
-          >
 
-            {conteudo}
+):(
 
 
-          </div>
+<div
 
+key={index}
 
-        );
+>
 
+{conteudo}
 
+</div>
 
-      })}
 
+);
 
 
-    </section>
+
+})
+
+
+}
+
+
+
+</section>
 
 
   );
