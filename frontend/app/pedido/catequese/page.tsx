@@ -2,12 +2,9 @@
 
 import { useState } from "react";
 
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-
 export default function CatequesePage() {
-
 
   const [form, setForm] = useState({
 
@@ -24,14 +21,11 @@ export default function CatequesePage() {
   });
 
 
-
   const [loading,setLoading] = useState(false);
 
   const [mensagem,setMensagem] = useState("");
 
   const [erro,setErro] = useState("");
-
-
 
 
 
@@ -49,10 +43,6 @@ export default function CatequesePage() {
     });
 
   }
-
-
-
-
 
 
 
@@ -80,7 +70,6 @@ export default function CatequesePage() {
       localStorage.getItem("token");
 
 
-
       const usuarioSalvo =
       localStorage.getItem("user");
 
@@ -98,10 +87,6 @@ export default function CatequesePage() {
 
       const usuario =
       JSON.parse(usuarioSalvo);
-
-
-
-
 
 
 
@@ -124,7 +109,6 @@ export default function CatequesePage() {
           },
 
 
-
           body:JSON.stringify({
 
             tipo:"CATEQUESE",
@@ -142,16 +126,8 @@ export default function CatequesePage() {
 
 
 
-
-
-
-
-
       const data =
       await resposta.json();
-
-
-
 
 
 
@@ -168,16 +144,11 @@ export default function CatequesePage() {
 
 
 
-
-
-
       setMensagem(
 
         "Pedido de Catequese enviado com sucesso. A Secretaria Paroquial irá analisar."
 
       );
-
-
 
 
 
@@ -199,7 +170,6 @@ export default function CatequesePage() {
 
 
 
-
     }
 
 
@@ -210,7 +180,6 @@ export default function CatequesePage() {
       );
 
     }
-
 
 
 
@@ -228,10 +197,6 @@ export default function CatequesePage() {
 
 
 
-
-
-
-
 return (
 
 <main
@@ -239,11 +204,11 @@ return (
 className="
 min-h-screen
 bg-[#050B16]
-p-6
+p-4
+sm:p-6
 "
 
 >
-
 
 
 <div
@@ -251,7 +216,9 @@ p-6
 className="
 max-w-3xl
 mx-auto
-bg-white
+bg-[#091426]
+border
+border-yellow-600/30
 rounded-3xl
 shadow-xl
 p-6
@@ -261,13 +228,12 @@ sm:p-10
 >
 
 
-
 <h1
 
 className="
 text-3xl
 font-bold
-text-[#061a3a]
+text-white
 mb-3
 "
 
@@ -279,12 +245,10 @@ Pedido de Catequese
 
 
 
-
-
 <p
 
 className="
-text-gray-600
+text-gray-300
 mb-8
 "
 
@@ -293,9 +257,6 @@ mb-8
 Preencha os dados do catequizando para solicitar inscrição na Catequese Paroquial.
 
 </p>
-
-
-
 
 
 
@@ -315,8 +276,6 @@ space-y-5
 
 
 
-
-
 <input
 
 required
@@ -329,19 +288,25 @@ onChange={(e)=>
 atualizarCampo(
 "nomeCompleto",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
-
-
 
 
 
@@ -359,19 +324,22 @@ onChange={(e)=>
 atualizarCampo(
 "dataNascimento",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+outline-none
+focus:border-yellow-500
 "
 
 />
-
-
-
 
 
 
@@ -385,13 +353,19 @@ onChange={(e)=>
 atualizarCampo(
 "sexo",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+outline-none
+focus:border-yellow-500
 "
 
 >
@@ -414,12 +388,6 @@ Feminino
 </select>
 
 
-
-
-
-
-
-
 <input
 
 placeholder="Nome do pai ou responsável"
@@ -430,19 +398,25 @@ onChange={(e)=>
 atualizarCampo(
 "nomePai",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
-
-
 
 
 
@@ -458,19 +432,25 @@ onChange={(e)=>
 atualizarCampo(
 "nomeMae",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
-
-
 
 
 
@@ -486,19 +466,25 @@ onChange={(e)=>
 atualizarCampo(
 "endereco",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
-
-
 
 
 
@@ -514,19 +500,25 @@ onChange={(e)=>
 atualizarCampo(
 "telefone",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
-
-
 
 
 
@@ -542,21 +534,27 @@ value={form.email}
 
 onChange={(e)=>
 atualizarCampo(
-"telefone",
+"email",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
-
-
 
 
 
@@ -572,19 +570,26 @@ onChange={(e)=>
 atualizarCampo(
 "observacao",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
 h-32
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
-
 
 
 
@@ -599,8 +604,10 @@ mensagem &&
 <div
 
 className="
-bg-green-100
-text-green-700
+bg-green-900/40
+border
+border-green-600
+text-green-200
 p-4
 rounded-xl
 "
@@ -619,7 +626,6 @@ rounded-xl
 
 
 
-
 {
 
 erro &&
@@ -627,8 +633,10 @@ erro &&
 <div
 
 className="
-bg-red-100
-text-red-700
+bg-red-900/40
+border
+border-red-600
+text-red-200
 p-4
 rounded-xl
 "
@@ -647,7 +655,6 @@ rounded-xl
 
 
 
-
 <button
 
 disabled={loading}
@@ -657,11 +664,13 @@ w-full
 bg-gradient-to-r
 from-yellow-600
 to-yellow-400
-text-white
+text-[#061a3a]
 font-bold
 py-3
 rounded-xl
+shadow-lg
 hover:opacity-90
+transition
 disabled:opacity-50
 "
 

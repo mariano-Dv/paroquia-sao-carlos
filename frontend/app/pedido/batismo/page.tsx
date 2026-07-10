@@ -5,15 +5,11 @@ import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-
 export default function BatismoPage() {
-
 
   const router = useRouter();
 
-
   const [form, setForm] = useState({
-
     nomeCompleto: "",
     dataNascimento: "",
     sexo: "",
@@ -23,19 +19,11 @@ export default function BatismoPage() {
     telefone: "",
     email: "",
     observacao: ""
-
   });
 
-
   const [loading, setLoading] = useState(false);
-
   const [mensagem, setMensagem] = useState("");
-
   const [erro, setErro] = useState("");
-
-
-
-
 
   function atualizarCampo(
     campo:string,
@@ -43,18 +31,11 @@ export default function BatismoPage() {
   ){
 
     setForm({
-
       ...form,
-
       [campo]:valor
-
     });
 
   }
-
-
-
-
 
 
   async function enviarPedido(
@@ -63,24 +44,17 @@ export default function BatismoPage() {
 
     e.preventDefault();
 
-
     setLoading(true);
     setMensagem("");
     setErro("");
 
-
-
     try{
-
 
       const token =
       localStorage.getItem("token");
 
-
-
       const usuarioSalvo =
       localStorage.getItem("user");
-
 
 
       if(!usuarioSalvo){
@@ -92,10 +66,8 @@ export default function BatismoPage() {
       }
 
 
-
       const usuario =
       JSON.parse(usuarioSalvo);
-
 
 
       if(!usuario.id){
@@ -105,10 +77,6 @@ export default function BatismoPage() {
         );
 
       }
-
-
-
-
 
 
       const resposta = await fetch(
@@ -126,7 +94,6 @@ export default function BatismoPage() {
 
           },
 
-
           body:JSON.stringify({
 
             tipo:"BATISMO",
@@ -142,14 +109,8 @@ export default function BatismoPage() {
       );
 
 
-
-
-
       const data =
       await resposta.json();
-
-
-
 
 
       if(!resposta.ok){
@@ -162,18 +123,9 @@ export default function BatismoPage() {
       }
 
 
-
-
-
       setMensagem(
-
         "Pedido enviado com sucesso! A administração da Paróquia São Carlos Lwanga entrará em contacto consigo."
-
       );
-
-
-
-
 
 
       setForm({
@@ -191,15 +143,12 @@ export default function BatismoPage() {
       });
 
 
-
     }
 
     catch(error:any){
 
       setErro(
-
         error.message
-
       );
 
     }
@@ -210,462 +159,460 @@ export default function BatismoPage() {
 
     }
 
-
   }
 
 
+  return (
 
+    <main
+      className="
+      min-h-screen
+      bg-[#050B16]
+      p-4
+      sm:p-6
+      "
+    >
 
+      <div
 
+        className="
+        max-w-3xl
+        mx-auto
+        bg-[#091426]
+        border
+        border-yellow-600/30
+        rounded-3xl
+        shadow-xl
+        p-6
+        sm:p-10
+        "
 
+      >
 
-return (
 
-<main
+        <h1
 
-className="
-min-h-screen
-bg-[#050B16]
-p-6
-"
+          className="
+          text-3xl
+          font-bold
+          text-white
+          mb-3
+          "
 
->
+        >
 
+          Pedido de Batismo
 
-<div
+        </h1>
 
-className="
-max-w-3xl
-mx-auto
-bg-white
-rounded-3xl
-shadow-xl
-p-6
-sm:p-10
-"
 
->
+        <p
 
+          className="
+          text-gray-300
+          mb-8
+          "
 
-<h1
+        >
 
-className="
-text-3xl
-font-bold
-text-[#061a3a]
-mb-3
-"
+          Preencha corretamente os dados para solicitar o sacramento do Batismo.
 
->
+        </p>
 
-Pedido de Batismo
 
-</h1>
+        <form
 
+          onSubmit={enviarPedido}
 
+          className="
+          space-y-5
+          "
 
-<p
+        >
 
-className="
-text-gray-600
-mb-8
-"
 
->
+          <input
 
-Preencha corretamente os dados para solicitar o sacramento do Batismo.
+            required
 
-</p>
+            placeholder="Nome completo"
 
+            value={form.nomeCompleto}
 
+            onChange={(e)=>
+              atualizarCampo(
+                "nomeCompleto",
+                e.target.value
+              )
+            }
 
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            placeholder:text-gray-400
+            outline-none
+            focus:border-yellow-500
+            focus:ring-2
+            focus:ring-yellow-500/30
+            "
 
+          />
 
-<form
 
-onSubmit={enviarPedido}
+          <input
 
-className="
-space-y-5
-"
+            required
 
->
+            type="date"
 
+            value={form.dataNascimento}
 
+            onChange={(e)=>
+              atualizarCampo(
+                "dataNascimento",
+                e.target.value
+              )
+            }
 
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            outline-none
+            focus:border-yellow-500
+            "
+
+          />
+
+
+          <select
+
+            value={form.sexo}
 
+            onChange={(e)=>
+              atualizarCampo(
+                "sexo",
+                e.target.value
+              )
+            }
 
-<input
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            outline-none
+            focus:border-yellow-500
+            "
+
+          >
+
+            <option value="">
+              Selecionar sexo
+            </option>
+
+            <option value="Masculino">
+              Masculino
+            </option>
+
+            <option value="Feminino">
+              Feminino
+            </option>
 
-required
+          </select>
 
-placeholder="Nome completo"
 
-value={form.nomeCompleto}
+          
+          <input
 
-onChange={(e)=>
-atualizarCampo(
-"nomeCompleto",
-e.target.value
-)}
+            placeholder="Nome do pai"
 
-className="
-w-full
-border
-rounded-xl
-p-3
-outline-none
-focus:border-yellow-500
-"
+            value={form.nomePai}
+
+            onChange={(e)=>
+              atualizarCampo(
+                "nomePai",
+                e.target.value
+              )
+            }
+
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            placeholder:text-gray-400
+            outline-none
+            focus:border-yellow-500
+            focus:ring-2
+            focus:ring-yellow-500/30
+            "
+
+          />
+
 
-/>
+          <input
 
+            placeholder="Nome da mãe"
 
+            value={form.nomeMae}
+
+            onChange={(e)=>
+              atualizarCampo(
+                "nomeMae",
+                e.target.value
+              )
+            }
+
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            placeholder:text-gray-400
+            outline-none
+            focus:border-yellow-500
+            focus:ring-2
+            focus:ring-yellow-500/30
+            "
+
+          />
+
+
+          <input
 
+            placeholder="Morada / Endereço"
+
+            value={form.endereco}
+
+            onChange={(e)=>
+              atualizarCampo(
+                "endereco",
+                e.target.value
+              )
+            }
+
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            placeholder:text-gray-400
+            outline-none
+            focus:border-yellow-500
+            focus:ring-2
+            focus:ring-yellow-500/30
+            "
+
+          />
+
+
+          <input
+
+            placeholder="Telefone"
+
+            value={form.telefone}
+
+            onChange={(e)=>
+              atualizarCampo(
+                "telefone",
+                e.target.value
+              )
+            }
+
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            placeholder:text-gray-400
+            outline-none
+            focus:border-yellow-500
+            focus:ring-2
+            focus:ring-yellow-500/30
+            "
 
+          />
 
-<input
 
-required
+          <input
+
+            type="email"
 
-type="date"
+            placeholder="Email"
 
-value={form.dataNascimento}
+            value={form.email}
 
-onChange={(e)=>
-atualizarCampo(
-"dataNascimento",
-e.target.value
-)}
+            onChange={(e)=>
+              atualizarCampo(
+                "email",
+                e.target.value
+              )
+            }
 
-className="
-w-full
-border
-rounded-xl
-p-3
-"
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            bg-[#0B172A]
+            text-white
+            placeholder:text-gray-400
+            outline-none
+            focus:border-yellow-500
+            focus:ring-2
+            focus:ring-yellow-500/30
+            "
 
-/>
+          />
 
 
+          <textarea
 
+            placeholder="Observação"
 
+            value={form.observacao}
 
+            onChange={(e)=>
+              atualizarCampo(
+                "observacao",
+                e.target.value
+              )
+            }
 
+            className="
+            w-full
+            border
+            border-gray-600
+            rounded-xl
+            p-3
+            h-32
+            bg-[#0B172A]
+            text-white
+            placeholder:text-gray-400
+            outline-none
+            focus:border-yellow-500
+            focus:ring-2
+            focus:ring-yellow-500/30
+            "
 
-<select
+          />
 
-value={form.sexo}
 
-onChange={(e)=>
-atualizarCampo(
-"sexo",
-e.target.value
-)}
+          {
+          mensagem &&
 
-className="
-w-full
-border
-rounded-xl
-p-3
-"
+          <div
 
->
+            className="
+            bg-green-900/40
+            border
+            border-green-600
+            text-green-200
+            p-4
+            rounded-xl
+            "
 
-<option value="">
-Selecionar sexo
-</option>
+          >
 
-<option value="Masculino">
-Masculino
-</option>
+            {mensagem}
 
+          </div>
 
-<option value="Feminino">
-Feminino
-</option>
+          }
 
 
-</select>
 
+          {
+          erro &&
 
+          <div
 
+            className="
+            bg-red-900/40
+            border
+            border-red-600
+            text-red-200
+            p-4
+            rounded-xl
+            "
 
+          >
 
+            {erro}
 
+          </div>
 
-<input
+          }
 
-placeholder="Nome do pai"
 
-value={form.nomePai}
 
-onChange={(e)=>
-atualizarCampo(
-"nomePai",
-e.target.value
-)}
+          <button
 
-className="
-w-full
-border
-rounded-xl
-p-3
-"
+            disabled={loading}
 
-/>
+            className="
+            w-full
+            bg-gradient-to-r
+            from-yellow-600
+            to-yellow-400
+            text-[#061a3a]
+            font-bold
+            py-3
+            rounded-xl
+            shadow-lg
+            hover:opacity-90
+            transition
+            disabled:opacity-50
+            "
 
+          >
 
+            {
+              loading
+              ?
+              "Enviando..."
+              :
+              "Enviar Pedido"
+            }
 
+          </button>
 
 
+        </form>
 
 
-<input
+      </div>
 
-placeholder="Nome da mãe"
 
-value={form.nomeMae}
+    </main>
 
-onChange={(e)=>
-atualizarCampo(
-"nomeMae",
-e.target.value
-)}
-
-className="
-w-full
-border
-rounded-xl
-p-3
-"
-
-/>
-
-
-
-
-
-
-
-<input
-
-placeholder="Morada / Endereço"
-
-value={form.endereco}
-
-onChange={(e)=>
-atualizarCampo(
-"endereco",
-e.target.value
-)}
-
-className="
-w-full
-border
-rounded-xl
-p-3
-"
-
-/>
-
-
-
-
-
-
-
-<input
-
-placeholder="Telefone"
-
-value={form.telefone}
-
-onChange={(e)=>
-atualizarCampo(
-"telefone",
-e.target.value
-)}
-
-className="
-w-full
-border
-rounded-xl
-p-3
-"
-
-/>
-
-
-
-
-
-
-
-<input
-
-type="email"
-
-placeholder="Email"
-
-value={form.email}
-
-onChange={(e)=>
-atualizarCampo(
-"email",
-e.target.value
-)}
-
-className="
-w-full
-border
-rounded-xl
-p-3
-"
-
-/>
-
-
-
-
-
-
-
-<textarea
-
-placeholder="Observação"
-
-value={form.observacao}
-
-onChange={(e)=>
-atualizarCampo(
-"observacao",
-e.target.value
-)}
-
-className="
-w-full
-border
-rounded-xl
-p-3
-h-32
-"
-
-/>
-
-
-
-
-
-
-
-{
-mensagem &&
-
-<div
-
-className="
-bg-green-100
-text-green-700
-p-4
-rounded-xl
-"
-
->
-
-{mensagem}
-
-</div>
-
-}
-
-
-
-
-
-
-
-{
-erro &&
-
-<div
-
-className="
-bg-red-100
-text-red-700
-p-4
-rounded-xl
-"
-
->
-
-{erro}
-
-</div>
-
-}
-
-
-
-
-
-
-
-<button
-
-disabled={loading}
-
-className="
-w-full
-bg-gradient-to-r
-from-yellow-600
-to-yellow-400
-text-white
-font-bold
-py-3
-rounded-xl
-hover:opacity-90
-disabled:opacity-50
-"
-
->
-
-
-{
-
-loading
-
-?
-
-"Enviando..."
-
-:
-
-"Enviar Pedido"
-
-}
-
-
-
-</button>
-
-
-
-
-
-
-</form>
-
-
-
-
-</div>
-
-
-
-</main>
-
-);
+  );
 
 
 }

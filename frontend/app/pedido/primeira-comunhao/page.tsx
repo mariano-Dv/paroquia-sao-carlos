@@ -56,7 +56,6 @@ export default function PrimeiraComunhaoPage() {
 
 
 
-
   async function enviarPedido(
     e:React.FormEvent
   ){
@@ -124,11 +123,15 @@ export default function PrimeiraComunhaoPage() {
 
           body:JSON.stringify({
 
+
             tipo:"PRIMEIRA_COMUNHAO",
+
 
             userId:usuario.id,
 
+
             ...form
+
 
           })
 
@@ -136,7 +139,6 @@ export default function PrimeiraComunhaoPage() {
         }
 
       );
-
 
 
 
@@ -170,6 +172,7 @@ export default function PrimeiraComunhaoPage() {
         "Pedido de Primeira Comunhão enviado com sucesso. A Secretaria Paroquial irá analisar."
 
       );
+
 
 
 
@@ -218,8 +221,6 @@ export default function PrimeiraComunhaoPage() {
 
 
 
-
-
 return (
 
 <main
@@ -227,7 +228,8 @@ return (
 className="
 min-h-screen
 bg-[#050B16]
-p-6
+p-4
+sm:p-6
 "
 
 
@@ -239,7 +241,9 @@ p-6
 className="
 max-w-3xl
 mx-auto
-bg-white
+bg-[#091426]
+border
+border-yellow-600/30
 rounded-3xl
 shadow-xl
 p-6
@@ -255,7 +259,7 @@ sm:p-10
 className="
 text-3xl
 font-bold
-text-[#061a3a]
+text-white
 mb-3
 "
 
@@ -270,7 +274,7 @@ Pedido de Primeira Comunhão
 <p
 
 className="
-text-gray-600
+text-gray-300
 mb-8
 "
 
@@ -317,12 +321,19 @@ e.target.value
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
 
 
 
@@ -345,12 +356,16 @@ e.target.value
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+outline-none
+focus:border-yellow-500
 "
 
 />
-
 
 
 
@@ -369,8 +384,13 @@ e.target.value
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+outline-none
+focus:border-yellow-500
 "
 
 >
@@ -393,11 +413,6 @@ Feminino
 </select>
 
 
-
-
-
-
-
 <input
 
 placeholder="Nome do pai"
@@ -408,16 +423,26 @@ onChange={(e)=>
 atualizarCampo(
 "nomePai",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
+
 
 
 
@@ -434,16 +459,26 @@ onChange={(e)=>
 atualizarCampo(
 "nomeMae",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
+
 
 
 
@@ -460,16 +495,26 @@ onChange={(e)=>
 atualizarCampo(
 "endereco",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
+
 
 
 
@@ -486,13 +531,22 @@ onChange={(e)=>
 atualizarCampo(
 "telefone",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
@@ -515,17 +569,25 @@ onChange={(e)=>
 atualizarCampo(
 "email",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
-
 
 
 
@@ -543,17 +605,27 @@ onChange={(e)=>
 atualizarCampo(
 "observacao",
 e.target.value
-)}
+)
+}
 
 className="
 w-full
 border
+border-gray-600
 rounded-xl
 p-3
 h-32
+bg-[#0B172A]
+text-white
+placeholder:text-gray-400
+outline-none
+focus:border-yellow-500
+focus:ring-2
+focus:ring-yellow-500/30
 "
 
 />
+
 
 
 
@@ -569,8 +641,10 @@ mensagem &&
 <div
 
 className="
-bg-green-100
-text-green-700
+bg-green-900/40
+border
+border-green-600
+text-green-200
 p-4
 rounded-xl
 "
@@ -589,6 +663,8 @@ rounded-xl
 
 
 
+
+
 {
 
 erro &&
@@ -596,8 +672,10 @@ erro &&
 <div
 
 className="
-bg-red-100
-text-red-700
+bg-red-900/40
+border
+border-red-600
+text-red-200
 p-4
 rounded-xl
 "
@@ -617,6 +695,9 @@ rounded-xl
 
 
 
+
+
+
 <button
 
 disabled={loading}
@@ -626,10 +707,13 @@ w-full
 bg-gradient-to-r
 from-yellow-600
 to-yellow-400
-text-white
+text-[#061a3a]
 font-bold
 py-3
 rounded-xl
+shadow-lg
+hover:opacity-90
+transition
 "
 
 >
@@ -656,7 +740,12 @@ loading
 
 
 
+
+
 </form>
+
+
+
 
 
 
