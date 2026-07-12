@@ -29,11 +29,7 @@ const menu = [
     icon: FileText,
     rota: "/admin/pedidos",
   },
-  {
-    nome: "Membros",
-    icon: Users,
-    rota: "/admin/membros",
-  },
+ 
   {
     nome: "Notícias",
     icon: Newspaper,
@@ -44,16 +40,8 @@ const menu = [
     icon: Image,
     rota: "/dashboard/galeria",
   },
-  {
-    nome: "Administradores",
-    icon: ShieldCheck,
-    rota: "/admin/administradores",
-  },
-  {
-    nome: "Configurações",
-    icon: Settings,
-    rota: "/admin/configuracoes",
-  },
+  
+ 
 ];
 
 

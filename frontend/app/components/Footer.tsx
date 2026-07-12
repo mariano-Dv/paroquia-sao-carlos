@@ -19,7 +19,7 @@ export default function Footer() {
         {/* ESQUERDA — FRASE */}
         <div className="md:w-1/3">
           <p className="text-white text-sm md:text-base leading-relaxed">
-            “Tudo o que fizerdes, fazei-o por amor a Deus, São Carlos Luanda.”
+            “Tudo o que fizerdes, fazei-o por amor a Deus, São Carlos Lwanda.”
           </p>
         </div>
 
