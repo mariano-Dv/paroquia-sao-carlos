@@ -1,10 +1,17 @@
 import { Module } from '@nestjs/common';
 
+
 import { GaleriaController } from './galeria.controller';
+
 
 import { GaleriaService } from './galeria.service';
 
+
 import { PrismaModule } from '../prisma/prisma.module';
+
+
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
+
 
 
 
@@ -14,7 +21,10 @@ import { PrismaModule } from '../prisma/prisma.module';
 
     PrismaModule,
 
+    CloudinaryModule,
+
   ],
+
 
 
   controllers:[
@@ -24,11 +34,13 @@ import { PrismaModule } from '../prisma/prisma.module';
   ],
 
 
+
   providers:[
 
     GaleriaService,
 
   ],
+
 
 
   exports:[
@@ -39,5 +51,6 @@ import { PrismaModule } from '../prisma/prisma.module';
 
 
 })
+
 
 export class GaleriaModule {}

@@ -16,13 +16,8 @@ import {
 
 
 import {
-  diskStorage,
+  memoryStorage,
 } from 'multer';
-
-
-import {
-  extname,
-} from 'path';
 
 
 import { GaleriaService } from './galeria.service';
@@ -43,8 +38,6 @@ export class GaleriaController {
 
 
 
-
-
   // =====================================
   // ADICIONAR IMAGEM
   // POST /galeria
@@ -56,39 +49,12 @@ export class GaleriaController {
   @UseInterceptors(
 
     FileInterceptor(
+
       'imagem',
 
       {
 
-        storage: diskStorage({
-
-          destination:
-          './uploads/galeria',
-
-
-
-          filename:(req,file,callback)=>{
-
-
-            const nomeUnico =
-
-            Date.now()
-            +
-            extname(file.originalname);
-
-
-
-            callback(
-              null,
-              nomeUnico
-            );
-
-
-          },
-
-
-        }),
-
+        storage: memoryStorage(),
 
       }
 
@@ -106,29 +72,19 @@ export class GaleriaController {
   ){
 
 
-
     return this.galeriaService.criarImagem({
 
       titulo:data.titulo,
 
-      imagemUrl:
+      descricao:data.descricao,
 
-      imagem
-      ?
-
-      `uploads/galeria/${imagem.filename}`
-
-      :
-
-      null,
+      imagem,
 
 
     });
 
 
   }
-
-
 
 
 
@@ -145,13 +101,9 @@ export class GaleriaController {
 
   listarGaleria(){
 
-
     return this.galeriaService.listarGaleria();
 
-
   }
-
-
 
 
 
@@ -172,13 +124,9 @@ export class GaleriaController {
 
   ){
 
-
     return this.galeriaService.buscarPorId(id);
 
-
   }
-
-
 
 
 
@@ -199,9 +147,7 @@ export class GaleriaController {
 
   ){
 
-
     return this.galeriaService.removerImagem(id);
-
 
   }
 

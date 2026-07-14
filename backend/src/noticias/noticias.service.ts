@@ -7,9 +7,9 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 
 
-import * as fs from 'fs';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
-import * as path from 'path';
+
 
 
 
@@ -17,9 +17,13 @@ import * as path from 'path';
 export class NoticiasService {
 
 
+
   constructor(
 
     private prisma: PrismaService,
+
+
+    private cloudinaryService: CloudinaryService,
 
   ) {}
 
@@ -29,10 +33,40 @@ export class NoticiasService {
 
 
 
+  // =====================================
+  // CRIAR NOTÍCIA
+  // =====================================
+
+
   async criarNoticia(data:any){
 
 
+    let imagemUrl: string | null = null;
+
+
+
+    if(data.imagem){
+
+
+      imagemUrl = await this.cloudinaryService.uploadImagem(
+
+        data.imagem,
+
+        "paroquia/noticias"
+
+      );
+
+
+    }
+
+
+
+
+
+
+
     return this.prisma.noticia.create({
+
 
       data:{
 
@@ -46,29 +80,42 @@ export class NoticiasService {
         conteudo:data.conteudo,
 
 
-        imagem:data.imagem,
+        imagem: imagemUrl,
 
 
         tipo:data.tipo,
 
 
         dataEvento:data.dataEvento
+
         ?
+
         new Date(data.dataEvento)
+
         :
+
         null,
 
 
+
         publicada:
+
         data.publicada !== undefined
+
         ?
-        data.publicada === 'true'
+
+        data.publicada === "true"
+
         :
+
         true,
 
 
+
         destaque:
-        data.destaque === 'true',
+
+        data.destaque === "true",
+
 
 
       },
@@ -83,6 +130,13 @@ export class NoticiasService {
 
 
 
+
+
+
+
+  // =====================================
+  // LISTAR NOTÍCIAS
+  // =====================================
 
 
   async listarNoticias(){
@@ -111,6 +165,13 @@ export class NoticiasService {
 
 
 
+
+
+  // =====================================
+  // BUSCAR POR ID
+  // =====================================
+
+
   async buscarPorId(id:string){
 
 
@@ -127,6 +188,7 @@ export class NoticiasService {
 
 
     });
+
 
 
 
@@ -156,6 +218,13 @@ export class NoticiasService {
 
 
 
+
+
+  // =====================================
+  // REMOVER NOTÍCIA
+  // =====================================
+
+
   async removerNoticia(id:string){
 
 
@@ -164,29 +233,20 @@ export class NoticiasService {
 
 
 
+
     if(noticia.imagem){
 
 
-      const caminho = path.join(
-
-        process.cwd(),
+      await this.cloudinaryService.removerImagem(
 
         noticia.imagem
 
       );
 
 
-
-      if(fs.existsSync(caminho)){
-
-
-        fs.unlinkSync(caminho);
-
-
-      }
-
-
     }
+
+
 
 
 
@@ -208,6 +268,7 @@ export class NoticiasService {
 
 
   }
+
 
 
 }

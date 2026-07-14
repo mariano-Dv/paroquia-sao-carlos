@@ -7,9 +7,8 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 
 
-import * as fs from 'fs';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
-import * as path from 'path';
 
 
 
@@ -20,6 +19,10 @@ export class GaleriaService {
   constructor(
 
     private prisma: PrismaService,
+
+
+    private cloudinaryService: CloudinaryService,
+
 
   ) {}
 
@@ -37,6 +40,30 @@ export class GaleriaService {
   async criarImagem(data:any){
 
 
+    let imagemUrl = "";
+
+
+
+    if(data.imagem){
+
+
+      imagemUrl = await this.cloudinaryService.uploadImagem(
+
+        data.imagem,
+
+        "paroquia/galeria"
+
+      );
+
+
+    }
+
+
+
+
+
+
+
     return this.prisma.galeria.create({
 
       data:{
@@ -45,7 +72,10 @@ export class GaleriaService {
         titulo:data.titulo,
 
 
-        imagemUrl:data.imagemUrl,
+        descricao:data.descricao,
+
+
+        imagemUrl,
 
 
       },
@@ -55,8 +85,6 @@ export class GaleriaService {
 
 
   }
-
-
 
 
 
@@ -94,8 +122,6 @@ export class GaleriaService {
 
 
 
-
-
   // =====================================
   // BUSCAR POR ID
   // =====================================
@@ -108,12 +134,9 @@ export class GaleriaService {
 
       where:{
 
-
         id,
 
-
       },
-
 
     });
 
@@ -146,8 +169,6 @@ export class GaleriaService {
 
 
 
-
-
   // =====================================
   // REMOVER IMAGEM
   // =====================================
@@ -162,28 +183,14 @@ export class GaleriaService {
 
 
 
-    // caminho físico da imagem
+    if(imagem.imagemUrl){
 
 
-    const caminho = path.join(
+      await this.cloudinaryService.removerImagem(
 
-      process.cwd(),
+        imagem.imagemUrl
 
-      imagem.imagemUrl
-
-    );
-
-
-
-
-
-    // apagar arquivo se existir
-
-
-    if(fs.existsSync(caminho)){
-
-
-      fs.unlinkSync(caminho);
+      );
 
 
     }
@@ -198,12 +205,9 @@ export class GaleriaService {
 
       where:{
 
-
         id,
 
-
       },
-
 
     });
 

@@ -28,6 +28,9 @@ import { GaleriaModule } from './galeria/galeria.module';
 import { NoticiasModule } from './noticias/noticias.module';
 
 
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+
+
 
 
 
@@ -61,6 +64,9 @@ import { NoticiasModule } from './noticias/noticias.module';
 
 
     NoticiasModule,
+
+
+    CloudinaryModule,
 
 
   ],

@@ -10,35 +10,55 @@ import { NoticiasService } from './noticias.service';
 import { PrismaModule } from '../prisma/prisma.module';
 
 
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
+
+
+
+
 
 @Module({
 
   imports:[
 
+
     PrismaModule,
 
+
+    CloudinaryModule,
+
+
   ],
+
 
 
   controllers:[
 
+
     NoticiasController,
 
+
   ],
+
 
 
   providers:[
 
+
     NoticiasService,
 
+
   ],
+
 
 
   exports:[
 
+
     NoticiasService,
 
+
   ],
+
 
 })
 

@@ -15,14 +15,7 @@ import {
 } from '@nestjs/platform-express';
 
 
-import {
-  diskStorage,
-} from 'multer';
-
-
-import {
-  extname,
-} from 'path';
+import { memoryStorage } from 'multer';
 
 
 import { NoticiasService } from './noticias.service';
@@ -43,6 +36,12 @@ export class NoticiasController {
 
 
 
+  // =====================================
+  // CRIAR NOTÍCIA
+  // POST /noticias
+  // =====================================
+
+
   @Post()
 
 
@@ -54,37 +53,7 @@ export class NoticiasController {
 
       {
 
-        storage: diskStorage({
-
-          destination:
-          './uploads/noticias',
-
-
-          filename:(req,file,callback)=>{
-
-
-            const nomeUnico =
-
-            Date.now()
-            +
-            extname(file.originalname);
-
-
-
-            callback(
-
-              null,
-
-              nomeUnico
-
-            );
-
-
-          },
-
-
-        }),
-
+        storage: memoryStorage(),
 
       }
 
@@ -93,53 +62,32 @@ export class NoticiasController {
   )
 
 
-
   criarNoticia(
 
-    @UploadedFile() imagem:any,
+    @UploadedFile() imagem: Express.Multer.File,
 
     @Body() data:any,
 
   ){
 
 
-
     return this.noticiasService.criarNoticia({
-
 
       titulo:data.titulo,
 
-
       resumo:data.resumo,
-
 
       conteudo:data.conteudo,
 
-
       tipo:data.tipo,
-
 
       dataEvento:data.dataEvento,
 
-
       publicada:data.publicada,
-
 
       destaque:data.destaque,
 
-
-      imagem:
-
-      imagem
-
-      ?
-
-      `uploads/noticias/${imagem.filename}`
-
-      :
-
-      null,
-
+      imagem,
 
     });
 
@@ -152,6 +100,9 @@ export class NoticiasController {
 
 
 
+  // =====================================
+  // LISTAR
+  // =====================================
 
 
   @Get()
@@ -171,6 +122,9 @@ export class NoticiasController {
 
 
 
+  // =====================================
+  // BUSCAR POR ID
+  // =====================================
 
 
   @Get(':id')
@@ -194,6 +148,9 @@ export class NoticiasController {
 
 
 
+  // =====================================
+  // REMOVER
+  // =====================================
 
 
   @Delete(':id')
