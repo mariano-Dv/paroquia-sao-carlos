@@ -1,15 +1,16 @@
 "use client";
 
-
 import { useEffect, useState } from "react";
 
 import {
   Upload,
   Trash2,
   Image as ImageIcon,
-  X
+  X,
+  Loader2
 } from "lucide-react";
 
+import { motion } from "framer-motion";
 
 
 interface Galeria {
@@ -26,368 +27,315 @@ interface Galeria {
 
 
 
-
 export default function GaleriaPage(){
 
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const API = process.env.NEXT_PUBLIC_API_URL;
 
 
+const [imagens,setImagens] = useState<Galeria[]>([]);
 
-  const [imagens,setImagens] = useState<Galeria[]>([]);
 
-  const [titulo,setTitulo] = useState("");
+const [titulo,setTitulo] = useState("");
 
-  const [imagem,setImagem] = useState<File | null>(null);
 
-  const [preview,setPreview] = useState("");
+const [imagem,setImagem] = useState<File | null>(null);
 
-  const [carregando,setCarregando] = useState(false);
 
-  const [mostrarConfirmacao,setMostrarConfirmacao] = useState(false);
+const [preview,setPreview] = useState("");
 
-  const [imagemExcluir,setImagemExcluir] = useState<string | null>(null);
 
+const [carregando,setCarregando] = useState(false);
 
 
+const [mostrarConfirmacao,setMostrarConfirmacao] = useState(false);
 
 
+const [imagemExcluir,setImagemExcluir] = useState<string | null>(null);
 
-  // ================================
-  // BUSCAR GALERIA
-  // ================================
 
 
-  async function carregarGaleria(){
 
 
-    try{
 
+async function carregarGaleria(){
 
-      const resposta = await fetch(
-        `${API}/galeria`
-      );
 
+try{
 
-      if(!resposta.ok){
 
-        throw new Error(
-          "Erro ao buscar galeria"
-        );
+const resposta = await fetch(
+`${API_URL}/galeria`
+);
 
-      }
 
 
+if(!resposta.ok){
 
-      const dados = await resposta.json();
+throw new Error(
+"Erro ao carregar galeria"
+);
 
+}
 
-      setImagens(dados);
 
 
+const dados = await resposta.json();
 
-    }catch(error){
 
 
-      console.log(error);
+setImagens(dados);
 
 
-    }
 
+}catch(error){
 
-  }
 
+console.log(error);
 
 
+}
 
 
 
-  useEffect(()=>{
+}
 
 
-    carregarGaleria();
 
 
-  },[]);
 
 
+useEffect(()=>{
 
 
+carregarGaleria();
 
 
+},[]);
 
 
 
-  // ================================
-  // ESCOLHER IMAGEM
-  // ================================
 
 
-  function selecionarImagem(
-    e:React.ChangeEvent<HTMLInputElement>
-  ){
 
 
 
-    const arquivo = e.target.files?.[0];
 
+function selecionarImagem(
+e:React.ChangeEvent<HTMLInputElement>
+){
 
 
-    if(!arquivo)
-      return;
 
+const arquivo = e.target.files?.[0];
 
 
 
-    setImagem(arquivo);
+if(!arquivo)
+return;
 
 
 
-    setPreview(
-      URL.createObjectURL(arquivo)
-    );
 
+setImagem(arquivo);
 
-  }
 
 
+setPreview(
+URL.createObjectURL(arquivo)
+);
 
 
 
+}
 
 
 
 
-  // ================================
-  // ENVIAR IMAGEM
-  // ================================
 
 
-  async function enviarImagem(){
 
 
 
-    if(!imagem){
+async function enviarImagem(){
 
 
-      alert(
-        "Selecione uma imagem primeiro"
-      );
 
+if(!imagem){
 
-      return;
 
+alert(
+"Selecione uma imagem primeiro"
+);
 
-    }
 
+return;
 
 
+}
 
 
-    setCarregando(true);
 
+setCarregando(true);
 
 
 
+const formulario = new FormData();
 
-    const formulario = new FormData();
 
 
+formulario.append(
+"imagem",
+imagem
+);
 
 
-    formulario.append(
-      "imagem",
-      imagem
-    );
 
+formulario.append(
+"titulo",
+titulo
+);
 
 
-    formulario.append(
-      "titulo",
-      titulo
-    );
 
 
+try{
 
 
+const resposta = await fetch(
 
+`${API_URL}/galeria`,
 
-    try{
+{
 
+method:"POST",
 
-      const resposta = await fetch(
+body:formulario
 
-        `${API}/galeria`,
+}
 
-        {
+);
 
-          method:"POST",
 
-          body:formulario
 
-        }
 
-      );
+if(!resposta.ok){
 
 
+throw new Error(
+"Erro no envio"
+);
 
 
+}
 
 
-      if(!resposta.ok){
 
 
-        throw new Error(
-          "Erro ao enviar imagem"
-        );
 
+setTitulo("");
 
-      }
+setImagem(null);
 
+setPreview("");
 
 
 
+await carregarGaleria();
 
 
 
-      setTitulo("");
+alert(
+"Imagem adicionada com sucesso!"
+);
 
-      setImagem(null);
 
-      setPreview("");
 
+}catch(error){
 
 
+console.log(error);
 
-      await carregarGaleria();
 
+alert(
+"Erro ao adicionar imagem"
+);
 
 
 
-      alert(
-        "Imagem adicionada com sucesso!"
-      );
+}finally{
 
 
+setCarregando(false);
 
 
+}
 
 
-    }catch(error){
 
+}
 
-      console.log(error);
 
 
-      alert(
-        "Não foi possível adicionar a imagem"
-      );
 
 
-    }
 
 
 
-    setCarregando(false);
 
+async function removerImagem(){
 
 
-  }
 
+if(!imagemExcluir)
+return;
 
 
 
 
+try{
 
 
+await fetch(
 
+`${API_URL}/galeria/${imagemExcluir}`,
 
+{
 
+method:"DELETE"
 
+}
 
-  // ================================
-  // REMOVER IMAGEM
-  // ================================
+);
 
 
-  async function removerImagem(){
 
+setImagemExcluir(null);
 
+setMostrarConfirmacao(false);
 
-    if(!imagemExcluir)
-      return;
 
 
+carregarGaleria();
 
 
-    try{
 
+}catch(error){
 
-      const resposta = await fetch(
 
-        `${API}/galeria/${imagemExcluir}`,
+console.log(error);
 
-        {
 
-          method:"DELETE"
+}
 
-        }
 
-      );
 
-
-
-      if(!resposta.ok){
-
-
-        throw new Error(
-          "Erro ao remover"
-        );
-
-
-      }
-
-
-
-
-
-      setImagemExcluir(null);
-
-      setMostrarConfirmacao(false);
-
-
-
-      carregarGaleria();
-
-
-
-
-    }catch(error){
-
-
-      console.log(error);
-
-
-    }
-
-
-  }
-
-
-
-
-
-
-
-
-
+}
 
 return (
 
-
-<div className="min-h-screen bg-gray-100 p-6">
-
+<div className="min-h-screen bg-[#050B16] p-6">
 
 
 <div className="max-w-6xl mx-auto">
@@ -396,14 +344,30 @@ return (
 
 
 
-<div className="
-bg-[#061a3a]
+<motion.div
+
+initial={{
+opacity:0,
+y:-20
+}}
+
+animate={{
+opacity:1,
+y:0
+}}
+
+className="
+bg-gradient-to-r
+from-[#061a3a]
+to-[#0b2a55]
 rounded-3xl
 p-6
 text-white
-shadow-xl
+shadow-2xl
 mb-8
-">
+"
+
+>
 
 
 <h1 className="
@@ -422,12 +386,12 @@ text-gray-300
 mt-2
 ">
 
-Gerencie as imagens da paróquia.
+Gerencie as imagens da comunidade paroquial.
 
 </p>
 
 
-</div>
+</motion.div>
 
 
 
@@ -438,11 +402,13 @@ Gerencie as imagens da paróquia.
 
 
 <div className="
-bg-white
+bg-[#0B1628]
+border
+border-white/10
 rounded-3xl
 p-6
-shadow-md
-mb-8
+shadow-xl
+mb-10
 ">
 
 
@@ -450,7 +416,7 @@ mb-8
 <h2 className="
 text-xl
 font-bold
-text-[#061a3a]
+text-white
 mb-5
 ">
 
@@ -481,10 +447,16 @@ onChange={(e)=>setTitulo(e.target.value)}
 
 className="
 w-full
+bg-[#06101f]
 border
+border-white/20
+text-white
+placeholder-gray-400
 rounded-xl
 p-3
 mb-4
+outline-none
+focus:border-yellow-400
 "
 
 />
@@ -499,6 +471,7 @@ mb-4
 <label className="
 border-2
 border-dashed
+border-white/20
 rounded-2xl
 p-6
 flex
@@ -506,17 +479,22 @@ flex-col
 items-center
 justify-center
 cursor-pointer
+hover:border-yellow-400
+transition
 ">
 
 
 <Upload
 size={35}
-className="text-[#061a3a]"
+className="text-yellow-400"
 />
 
 
 
-<p className="mt-3 text-gray-600">
+<p className="
+mt-3
+text-gray-300
+">
 
 Escolher imagem
 
@@ -548,10 +526,18 @@ className="hidden"
 
 
 
+{
+preview &&
 
-{preview && (
+<motion.img
 
-<img
+initial={{
+opacity:0
+}}
+
+animate={{
+opacity:1
+}}
 
 src={preview}
 
@@ -565,8 +551,7 @@ rounded-2xl
 
 />
 
-)}
-
+}
 
 
 
@@ -576,18 +561,11 @@ rounded-2xl
 
 <button
 
+
 type="button"
 
 
-onClick={(e)=>{
-
-
-e.preventDefault();
-
-enviarImagem();
-
-
-}}
+onClick={enviarImagem}
 
 
 disabled={carregando}
@@ -605,20 +583,42 @@ flex
 items-center
 gap-2
 hover:bg-yellow-500
+transition
+disabled:opacity-50
 "
 
 
 >
 
 
+{
+
+carregando
+
+?
+
+<Loader2 className="animate-spin"/>
+
+:
+
 <ImageIcon size={20}/>
 
+}
 
-{carregando
+
+
+{
+
+carregando
+
 ?
+
 "Enviando..."
+
 :
+
 "Adicionar imagem"
+
 }
 
 
@@ -639,6 +639,25 @@ hover:bg-yellow-500
 
 
 
+<h2 className="
+text-xl
+font-bold
+text-white
+mb-5
+">
+
+Imagens publicadas
+
+</h2>
+
+
+
+
+
+
+
+
+
 <div className="
 grid
 md:grid-cols-3
@@ -647,28 +666,58 @@ gap-6
 
 
 
+
+
 {
 
 imagens.map((item)=>(
 
 
-<div
+<motion.div
 
 key={item.id}
 
+
+initial={{
+opacity:0,
+scale:0.95
+}}
+
+
+animate={{
+opacity:1,
+scale:1
+}}
+
+
 className="
-bg-white
+bg-[#0B1628]
+border
+border-white/10
 rounded-3xl
 overflow-hidden
-shadow-md
+shadow-xl
 "
 
 >
 
 
+
 <img
 
-src={`${API}/${item.imagemUrl}`}
+
+src={item.imagemUrl}
+
+
+alt={item.titulo || "Imagem da galeria"}
+
+
+onError={(e)=>{
+
+e.currentTarget.src="/images/logo.png";
+
+}}
+
 
 className="
 w-full
@@ -682,18 +731,22 @@ object-cover
 
 
 
+
+
+
 <div className="p-5">
 
 
 
 <h3 className="
 font-bold
-text-[#061a3a]
+text-white
 ">
 
 {item.titulo || "Sem descrição"}
 
 </h3>
+
 
 
 
@@ -710,7 +763,9 @@ onClick={()=>{
 
 setImagemExcluir(item.id);
 
+
 setMostrarConfirmacao(true);
+
 
 
 }}
@@ -726,12 +781,16 @@ rounded-xl
 flex
 items-center
 gap-2
+hover:bg-red-600
+transition
 "
+
 
 >
 
 
 <Trash2 size={18}/>
+
 
 Excluir
 
@@ -740,10 +799,15 @@ Excluir
 
 
 
+
 </div>
 
 
-</div>
+
+
+
+
+</motion.div>
 
 
 ))
@@ -763,25 +827,21 @@ Excluir
 
 
 
-</div>
-
-
-
-
-
 
 
 
 
 {
 
+
 mostrarConfirmacao && (
+
 
 
 <div className="
 fixed
 inset-0
-bg-black/50
+bg-black/70
 flex
 items-center
 justify-center
@@ -791,8 +851,12 @@ z-50
 
 
 
+
+
 <div className="
-bg-white
+bg-[#0B1628]
+border
+border-white/10
 rounded-3xl
 p-6
 max-w-md
@@ -802,19 +866,33 @@ text-center
 
 
 
+
+
 <button
+
 
 type="button"
 
-className="float-right"
+
+className="
+float-right
+text-white
+"
+
 
 onClick={()=>setMostrarConfirmacao(false)}
 
+
 >
+
 
 <X/>
 
+
 </button>
+
+
+
 
 
 
@@ -822,7 +900,7 @@ onClick={()=>setMostrarConfirmacao(false)}
 <h2 className="
 text-xl
 font-bold
-text-[#061a3a]
+text-white
 mb-4
 ">
 
@@ -832,14 +910,21 @@ Excluir imagem?
 
 
 
+
+
+
+
 <p className="
-text-gray-600
+text-gray-400
 mb-6
 ">
 
-A imagem será removida da galeria.
+A imagem será removida permanentemente da galeria.
 
 </p>
+
+
+
 
 
 
@@ -852,20 +937,29 @@ gap-4
 ">
 
 
+
+
+
 <button
+
 
 type="button"
 
+
 onClick={()=>setMostrarConfirmacao(false)}
+
 
 className="
 px-5
 py-2
-bg-gray-200
+bg-gray-700
+text-white
 rounded-xl
 "
 
+
 >
+
 
 Cancelar
 
@@ -874,11 +968,19 @@ Cancelar
 
 
 
+
+
+
+
+
 <button
+
 
 type="button"
 
+
 onClick={removerImagem}
+
 
 className="
 px-5
@@ -888,7 +990,9 @@ text-white
 rounded-xl
 "
 
+
 >
+
 
 Excluir
 
@@ -896,14 +1000,21 @@ Excluir
 
 
 
+
+
+</div>
+
+
+
+
+
 </div>
 
 
 
-</div>
-
 
 </div>
+
 
 
 )
@@ -912,6 +1023,10 @@ Excluir
 }
 
 
+
+
+
+</div>
 
 
 </div>

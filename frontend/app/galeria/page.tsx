@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Image as ImageIcon } from "lucide-react";
+
+import {
+  Image as ImageIcon
+} from "lucide-react";
+
+import {
+  motion
+} from "framer-motion";
+
 
 
 interface Galeria {
@@ -19,146 +27,123 @@ interface Galeria {
 
 
 
+
 export default function GaleriaPage(){
+
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
-  const [imagens,setImagens] = useState<Galeria[]>([]);
 
-  const [carregando,setCarregando] = useState(true);
+const [imagens,setImagens] = useState<Galeria[]>([]);
 
 
+const [carregando,setCarregando] = useState(true);
 
 
 
-  async function carregarGaleria(){
 
 
-    try{
 
 
-      const resposta = await fetch(
-        `${API_URL}/galeria`
-      );
 
+async function carregarGaleria(){
 
-      const dados = await resposta.json();
 
 
-      if(Array.isArray(dados)){
+try{
 
 
-        setImagens(dados);
 
+const resposta = await fetch(
 
-      }
+`${API_URL}/galeria`
 
+);
 
 
-    }catch(error){
 
+const dados = await resposta.json();
 
-      console.log(
-        "Erro ao carregar galeria",
-        error
-      );
 
 
-    }finally{
+if(Array.isArray(dados)){
 
 
-      setCarregando(false);
+setImagens(dados);
 
 
-    }
+}
 
 
 
-  }
+}catch(error){
 
 
 
+console.log(
+"Erro ao carregar galeria",
+error
+);
 
 
-  useEffect(()=>{
 
+}finally{
 
-    carregarGaleria();
 
+setCarregando(false);
 
-  },[]);
 
+}
 
 
 
+}
 
 
 
-  return (
 
-    <main className="min-h-screen bg-gray-100 pt-28 pb-16">
 
 
-      <section className="max-w-7xl mx-auto px-6">
 
 
+useEffect(()=>{
 
-        {/* CABEÇALHO */}
 
+carregarGaleria();
 
-        <div
-          className="
-            bg-[#061a3a]
-            rounded-3xl
-            p-8
-            text-white
-            shadow-xl
-            mb-10
-          "
-        >
 
+},[]);
 
-          <div className="flex items-center gap-3">
 
 
-            <ImageIcon
-              size={38}
-              className="text-yellow-400"
-            />
 
 
-            <h1
-              className="
-                text-3xl
-                font-bold
-              "
-            >
 
-              Galeria Paroquial
 
-            </h1>
 
 
-          </div>
+return (
 
 
 
-          <p
-            className="
-              text-gray-300
-              mt-3
-            "
-          >
+<main className="
+min-h-screen
+bg-[#050B16]
+pt-28
+pb-16
+">
 
-            Momentos e atividades da Paróquia São Carlos Lwanga.
 
-          </p>
 
 
 
-        </div>
+<section className="
+max-w-7xl
+mx-auto
+px-6
+">
 
 
 
@@ -166,172 +151,394 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
 
-        {carregando && (
+<motion.div
 
 
-          <div className="text-center text-gray-500">
+initial={{
+opacity:0,
+y:-20
+}}
 
-            Carregando imagens...
 
-          </div>
+animate={{
+opacity:1,
+y:0
+}}
 
 
-        )}
 
+className="
+bg-gradient-to-r
+from-[#061a3a]
+to-[#0b2a55]
+rounded-3xl
+p-8
+text-white
+shadow-2xl
+mb-10
+"
 
+>
 
 
 
+<div className="
+flex
+items-center
+gap-3
+">
 
 
 
-        {!carregando && imagens.length === 0 && (
+<ImageIcon
 
+size={38}
 
-          <div
-            className="
-              bg-white
-              rounded-3xl
-              p-10
-              text-center
-              shadow
-            "
-          >
+className="
+text-yellow-400
+"
 
-            <p className="text-gray-500">
+/>
 
-              Ainda não existem imagens publicadas.
 
-            </p>
 
 
-          </div>
 
+<h1 className="
+text-3xl
+font-bold
+">
 
-        )}
 
+Galeria Paroquial
 
 
+</h1>
 
 
 
+</div>
 
 
 
-        <div
 
-          className="
-            grid
-            grid-cols-1
-            sm:grid-cols-2
-            lg:grid-cols-3
-            gap-8
-          "
 
-        >
 
 
+<p className="
+text-gray-300
+mt-3
+">
 
 
-          {imagens.map((imagem)=>(
+Momentos e atividades da Paróquia São Carlos Lwanga.
 
 
-            <div
+</p>
 
-              key={imagem.id}
 
-              className="
-                bg-white
-                rounded-3xl
-                overflow-hidden
-                shadow-md
-                hover:shadow-xl
-                transition
-              "
 
-            >
 
+</motion.div>
 
 
-              <img
 
-                src={`${API_URL}/${imagem.imagemUrl}`}
 
-                alt={
-                  imagem.titulo || 
-                  "Imagem da galeria"
-                }
 
-                className="
-                  w-full
-                  h-72
-                  object-cover
-                "
 
-              />
 
 
 
+{
+carregando && (
 
 
-              <div className="p-5">
+<div className="
+text-center
+text-gray-300
+">
 
 
-                <h2
-                  className="
-                    text-lg
-                    font-bold
-                    text-[#061a3a]
-                  "
-                >
+Carregando imagens...
 
-                  {
-                    imagem.titulo ||
-                    "Momento paroquial"
-                  }
 
-                </h2>
+</div>
 
 
+)
 
-                <p
-                  className="
-                    text-sm
-                    text-gray-400
-                    mt-2
-                  "
-                >
+}
 
-                  Paróquia São Carlos Lwanga
 
-                </p>
 
 
-              </div>
 
 
 
-            </div>
 
 
+{
+!carregando &&
+imagens.length === 0 && (
 
-          ))}
 
 
+<div className="
+bg-[#0B1628]
+border
+border-white/10
+rounded-3xl
+p-10
+text-center
+shadow-xl
+">
 
-        </div>
 
+<p className="
+text-gray-400
+">
 
 
+Ainda não existem imagens publicadas.
 
-      </section>
 
+</p>
 
 
-    </main>
 
+</div>
 
-  );
+
+
+)
+
+}
+
+
+
+
+
+
+
+
+
+<div className="
+grid
+grid-cols-1
+sm:grid-cols-2
+lg:grid-cols-3
+gap-8
+">
+
+
+
+
+
+
+
+
+
+{
+
+imagens.map((imagem)=>(
+
+
+
+<motion.div
+
+
+
+key={imagem.id}
+
+
+
+
+initial={{
+opacity:0,
+scale:0.95
+}}
+
+
+
+animate={{
+opacity:1,
+scale:1
+}}
+
+
+
+
+whileHover={{
+y:-8
+}}
+
+
+
+
+
+className="
+bg-[#0B1628]
+border
+border-white/10
+rounded-3xl
+overflow-hidden
+shadow-xl
+transition
+"
+
+
+
+>
+
+
+
+
+
+
+
+<img
+
+
+
+src={imagem.imagemUrl}
+
+
+
+
+alt={
+
+imagem.titulo ||
+
+"Imagem da galeria"
+
+}
+
+
+
+
+onError={(e)=>{
+
+
+e.currentTarget.src="/images/logo.png";
+
+
+}}
+
+
+
+className="
+w-full
+h-72
+object-cover
+"
+
+
+
+/>
+
+
+
+
+
+
+
+
+
+
+<div className="
+p-5
+">
+
+
+
+
+
+<h2 className="
+text-lg
+font-bold
+text-white
+">
+
+
+{
+
+imagem.titulo ||
+
+"Momento paroquial"
+
+}
+
+
+
+</h2>
+
+
+
+
+
+
+
+<p className="
+text-sm
+text-gray-400
+mt-2
+">
+
+
+Paróquia São Carlos Lwanga
+
+
+</p>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</motion.div>
+
+
+
+))
+
+
+}
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+</main>
+
+
+);
+
 
 
 }

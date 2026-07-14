@@ -1,11 +1,9 @@
 "use client";
 
-
 import {
   useEffect,
   useState,
 } from "react";
-
 
 import {
   Newspaper,
@@ -14,11 +12,10 @@ import {
   CalendarDays,
   Plus,
   Loader2,
+  ImageIcon,
 } from "lucide-react";
 
-
 import { motion } from "framer-motion";
-
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -29,7 +26,9 @@ export default function NoticiasPage(){
 
 
   const [titulo,setTitulo] = useState("");
+
   const [resumo,setResumo] = useState("");
+
   const [conteudo,setConteudo] = useState("");
 
   const [tipo,setTipo] = useState("NOTICIA");
@@ -41,8 +40,9 @@ export default function NoticiasPage(){
 
   const [noticias,setNoticias] = useState<any[]>([]);
 
-
   const [loading,setLoading] = useState(false);
+
+
 
 
 
@@ -66,7 +66,12 @@ export default function NoticiasPage(){
 
     }catch(error){
 
-      console.log(error);
+
+      console.log(
+        "Erro ao carregar notícias",
+        error
+      );
+
 
     }
 
@@ -77,9 +82,13 @@ export default function NoticiasPage(){
 
 
 
+
+
   useEffect(()=>{
 
+
     carregarNoticias();
+
 
   },[]);
 
@@ -97,11 +106,18 @@ export default function NoticiasPage(){
 
     if(!titulo || !conteudo){
 
-      alert("Preencha título e conteúdo");
+
+      alert(
+        "Preencha o título e o conteúdo"
+      );
+
 
       return;
 
+
     }
+
+
 
 
 
@@ -109,7 +125,10 @@ export default function NoticiasPage(){
 
 
 
+
+
     const formData = new FormData();
+
 
 
 
@@ -119,16 +138,19 @@ export default function NoticiasPage(){
     );
 
 
+
     formData.append(
       "resumo",
       resumo
     );
 
 
+
     formData.append(
       "conteudo",
       conteudo
     );
+
 
 
     formData.append(
@@ -138,25 +160,37 @@ export default function NoticiasPage(){
 
 
 
+
+
     if(dataEvento){
+
 
       formData.append(
         "dataEvento",
         dataEvento
       );
 
+
     }
 
 
 
+
+
+
     if(imagem){
+
 
       formData.append(
         "imagem",
         imagem
       );
 
+
     }
+
+
+
 
 
 
@@ -182,6 +216,8 @@ export default function NoticiasPage(){
 
 
 
+
+
       setTitulo("");
 
       setResumo("");
@@ -194,14 +230,21 @@ export default function NoticiasPage(){
 
 
 
+
       await carregarNoticias();
+
+
 
 
 
     }catch(error){
 
 
-      console.log(error);
+      console.log(
+        "Erro ao publicar notícia",
+        error
+      );
+
 
 
     }finally{
@@ -213,7 +256,11 @@ export default function NoticiasPage(){
     }
 
 
+
   }
+
+
+
 
 
 
@@ -229,7 +276,7 @@ export default function NoticiasPage(){
 
     const confirmar = confirm(
 
-      "Deseja realmente apagar esta notícia?"
+      "Deseja realmente apagar esta publicação?"
 
     );
 
@@ -239,22 +286,36 @@ export default function NoticiasPage(){
 
 
 
-    await fetch(
-
-      `${API_URL}/noticias/${id}`,
-
-      {
-
-        method:"DELETE",
-
-      }
-
-    );
 
 
+    try{
 
-    carregarNoticias();
 
+      await fetch(
+
+        `${API_URL}/noticias/${id}`,
+
+        {
+
+          method:"DELETE",
+
+        }
+
+      );
+
+
+
+      carregarNoticias();
+
+
+
+    }catch(error){
+
+
+      console.log(error);
+
+
+    }
 
 
   }
@@ -269,14 +330,16 @@ export default function NoticiasPage(){
 
   return (
 
+
     <main
 
-    className="
-    min-h-screen
-    bg-gray-100
-    p-4
-    md:p-8
-    "
+      className="
+      min-h-screen
+      bg-[#050b16]
+      p-4
+      md:p-8
+      text-white
+      "
 
     >
 
@@ -284,20 +347,24 @@ export default function NoticiasPage(){
 
       <motion.div
 
-      initial={{
-        opacity:0,
-        y:20
-      }}
 
-      animate={{
-        opacity:1,
-        y:0
-      }}
+        initial={{
+          opacity:0,
+          y:20
+        }}
 
-      className="
-      max-w-6xl
-      mx-auto
-      "
+
+        animate={{
+          opacity:1,
+          y:0
+        }}
+
+
+        className="
+        max-w-6xl
+        mx-auto
+        "
+
 
       >
 
@@ -305,36 +372,58 @@ export default function NoticiasPage(){
 
 
 
+
         <div
 
-        className="
-        flex
-        items-center
-        gap-3
-        mb-8
-        "
+          className="
+          flex
+          items-center
+          gap-4
+          mb-10
+          "
 
         >
 
-          <Newspaper
 
-          className="
-          text-yellow-500
-          "
 
-          size={35}
+          <div
 
-          />
+            className="
+            p-3
+            rounded-2xl
+            bg-yellow-500/10
+            "
+
+          >
+
+            <Newspaper
+
+              size={38}
+
+              className="
+              text-yellow-400
+              "
+
+            />
+
+
+          </div>
+
+
+
+
 
           <div>
 
+
             <h1
 
-            className="
-            text-3xl
-            font-bold
-            text-[#061a3a]
-            "
+              className="
+              text-3xl
+              md:text-4xl
+              font-bold
+              text-white
+              "
 
             >
 
@@ -343,20 +432,23 @@ export default function NoticiasPage(){
             </h1>
 
 
+
             <p
 
-            className="
-            text-gray-500
-            "
+              className="
+              text-gray-400
+              mt-1
+              "
 
             >
 
-              Publique notícias e comunicados para os fiéis
+              Publique comunicados, eventos e informações para a comunidade.
 
             </p>
 
 
           </div>
+
 
 
         </div>
@@ -369,16 +461,17 @@ export default function NoticiasPage(){
 
 
 
-
         <section
 
-        className="
-        bg-white
-        rounded-2xl
-        shadow-lg
-        p-6
-        mb-10
-        "
+          className="
+          bg-[#0b162b]
+          border
+          border-white/10
+          rounded-3xl
+          shadow-2xl
+          p-6
+          mb-12
+          "
 
         >
 
@@ -386,16 +479,16 @@ export default function NoticiasPage(){
 
           <h2
 
-          className="
-          text-xl
-          font-bold
-          text-[#061a3a]
-          mb-5
-          "
+            className="
+            text-xl
+            font-bold
+            text-yellow-400
+            mb-6
+            "
 
           >
 
-            Adicionar publicação
+            Nova publicação
 
           </h2>
 
@@ -403,52 +496,68 @@ export default function NoticiasPage(){
 
 
 
+          <div
 
-          <div className="
-          grid
-          md:grid-cols-2
-          gap-4
-          ">
+            className="
+            grid
+            md:grid-cols-2
+            gap-5
+            "
+
+          >
 
 
 
             <input
 
-            value={titulo}
 
-            onChange={
-              e=>setTitulo(e.target.value)
-            }
+              value={titulo}
 
-            placeholder="Título da notícia"
 
-            className="
-            border
-            rounded-xl
-            p-3
-            outline-none
-            "
+              onChange={
+                e=>setTitulo(e.target.value)
+              }
+
+
+              placeholder="Título da notícia"
+
+
+              className="
+              bg-[#061a3a]
+              border
+              border-white/10
+              rounded-xl
+              p-3
+              text-white
+              outline-none
+              focus:border-yellow-400
+              "
 
             />
+
+
 
 
 
             <select
 
 
-            value={tipo}
+              value={tipo}
 
 
-            onChange={
-              e=>setTipo(e.target.value)
-            }
+              onChange={
+                e=>setTipo(e.target.value)
+              }
 
 
-            className="
-            border
-            rounded-xl
-            p-3
-            "
+              className="
+              bg-[#061a3a]
+              border
+              border-white/10
+              rounded-xl
+              p-3
+              text-white
+              "
 
             >
 
@@ -460,11 +569,13 @@ export default function NoticiasPage(){
               </option>
 
 
+
               <option value="COMUNICADO">
 
                 Comunicado
 
               </option>
+
 
 
             </select>
@@ -473,32 +584,28 @@ export default function NoticiasPage(){
 
           </div>
 
+                    <input
 
+            value={resumo}
 
+            onChange={
+              e=>setResumo(e.target.value)
+            }
 
+            placeholder="Resumo da publicação"
 
-
-
-
-
-          <input
-
-          value={resumo}
-
-          onChange={
-            e=>setResumo(e.target.value)
-          }
-
-
-          placeholder="Resumo da publicação"
-
-          className="
-          border
-          rounded-xl
-          p-3
-          w-full
-          mt-4
-          "
+            className="
+            mt-5
+            w-full
+            bg-[#061a3a]
+            border
+            border-white/10
+            rounded-xl
+            p-3
+            text-white
+            outline-none
+            focus:border-yellow-400
+            "
 
           />
 
@@ -512,26 +619,32 @@ export default function NoticiasPage(){
           <textarea
 
 
-          value={conteudo}
+            value={conteudo}
 
 
-          onChange={
-            e=>setConteudo(e.target.value)
-          }
+            onChange={
+              e=>setConteudo(e.target.value)
+            }
 
 
-          placeholder="Conteúdo completo"
-
-          rows={6}
+            placeholder="Conteúdo completo da publicação"
 
 
-          className="
-          border
-          rounded-xl
-          p-3
-          w-full
-          mt-4
-          "
+            rows={6}
+
+
+            className="
+            mt-5
+            w-full
+            bg-[#061a3a]
+            border
+            border-white/10
+            rounded-xl
+            p-3
+            text-white
+            outline-none
+            focus:border-yellow-400
+            "
 
           />
 
@@ -544,25 +657,20 @@ export default function NoticiasPage(){
 
 
           {
-            tipo==="COMUNICADO" &&
+            tipo === "COMUNICADO" &&
 
-            <div
+            <div className="mt-5">
 
-            className="
-            mt-4
-            "
-
-            >
 
               <label
 
-              className="
-              flex
-              items-center
-              gap-2
-              text-gray-600
-              mb-2
-              "
+                className="
+                flex
+                items-center
+                gap-2
+                text-gray-300
+                mb-2
+                "
 
               >
 
@@ -573,23 +681,33 @@ export default function NoticiasPage(){
               </label>
 
 
+
+
               <input
 
-              type="date"
 
-              value={dataEvento}
+                type="date"
 
-              onChange={
-                e=>setDataEvento(e.target.value)
-              }
 
-              className="
-              border
-              rounded-xl
-              p-3
-              "
+                value={dataEvento}
+
+
+                onChange={
+                  e=>setDataEvento(e.target.value)
+                }
+
+
+                className="
+                bg-[#061a3a]
+                border
+                border-white/10
+                rounded-xl
+                p-3
+                text-white
+                "
 
               />
+
 
             </div>
 
@@ -605,20 +723,21 @@ export default function NoticiasPage(){
 
           <label
 
-          className="
-          mt-5
-          flex
-          items-center
-          gap-3
-          cursor-pointer
-          text-[#061a3a]
-          font-medium
-          "
+
+            className="
+            mt-6
+            flex
+            items-center
+            gap-3
+            cursor-pointer
+            text-yellow-400
+            font-semibold
+            "
 
           >
 
 
-            <Upload/>
+            <Upload size={22}/>
 
 
             Escolher imagem
@@ -626,20 +745,29 @@ export default function NoticiasPage(){
 
             <input
 
-            type="file"
 
-            accept="image/*"
+              type="file"
 
-            hidden
 
-            onChange={
-              e=>
-              setImagem(
-                e.target.files?.[0] || null
-              )
-            }
+              accept="image/*"
+
+
+              hidden
+
+
+              onChange={
+
+                e=>
+
+                setImagem(
+                  e.target.files?.[0] || null
+                )
+
+              }
+
 
             />
+
 
 
           </label>
@@ -655,45 +783,63 @@ export default function NoticiasPage(){
           <button
 
 
-          onClick={publicarNoticia}
+            onClick={publicarNoticia}
 
 
-          className="
-          mt-6
-          bg-[#061a3a]
-          text-white
-          px-6
-          py-3
-          rounded-xl
-          flex
-          items-center
-          gap-2
-          hover:bg-yellow-500
-          hover:text-[#061a3a]
-          transition
-          "
+            disabled={loading}
+
+
+            className="
+            mt-6
+            bg-yellow-500
+            text-[#061a3a]
+            font-bold
+            px-7
+            py-3
+            rounded-xl
+            flex
+            items-center
+            gap-3
+            hover:bg-yellow-400
+            transition
+            disabled:opacity-50
+            "
 
           >
 
 
+
             {
+
               loading
+
               ?
-              <Loader2 className="animate-spin"/>
+
+              <Loader2
+
+                className="
+                animate-spin
+                "
+
+              />
+
               :
+
               <Plus/>
+
             }
 
 
-            Publicar
+
+            Publicar notícia
 
 
           </button>
 
 
 
-        </section>
 
+        </section>
 
 
 
@@ -711,12 +857,12 @@ export default function NoticiasPage(){
 
           <h2
 
-          className="
-          text-xl
-          font-bold
-          text-[#061a3a]
-          mb-5
-          "
+            className="
+            text-xl
+            font-bold
+            text-yellow-400
+            mb-6
+            "
 
           >
 
@@ -730,123 +876,248 @@ export default function NoticiasPage(){
 
 
 
+
+
           <div
 
-          className="
-          grid
-          md:grid-cols-2
-          gap-6
-          "
+            className="
+            grid
+            md:grid-cols-2
+            gap-7
+            "
 
           >
 
 
+
           {
-            noticias.map((item)=> (
+
+            noticias.map((item)=>(
+
 
 
               <motion.div
 
 
-              key={item.id}
+
+                key={item.id}
 
 
-              initial={{
-                opacity:0
-              }}
+
+                initial={{
+
+                  opacity:0,
+
+                  scale:0.95
+
+                }}
 
 
-              animate={{
-                opacity:1
-              }}
+
+                animate={{
+
+                  opacity:1,
+
+                  scale:1
+
+                }}
 
 
-              className="
-              bg-white
-              rounded-2xl
-              shadow
-              overflow-hidden
-              "
+
+                className="
+                bg-[#0b162b]
+                border
+                border-white/10
+                rounded-3xl
+                overflow-hidden
+                shadow-xl
+                "
 
               >
 
 
+
+
+
+
                 {
-                  item.imagem &&
+
+                  item.imagem
+
+                  ?
 
                   <img
 
-                  src={`${API_URL}/${item.imagem}`}
 
-                  className="
-                  w-full
-                  h-48
-                  object-cover
-                  "
+                    src={item.imagem}
+
+
+                    alt={item.titulo}
+
+
+                    className="
+                    w-full
+                    h-52
+                    object-cover
+                    "
 
                   />
+
+                  :
+
+                  <div
+
+                    className="
+                    h-52
+                    flex
+                    items-center
+                    justify-center
+                    bg-[#061a3a]
+                    text-gray-400
+                    "
+
+                  >
+
+                    <ImageIcon size={45}/>
+
+                  </div>
 
                 }
 
 
 
 
-                <div className="p-5">
+
+
+
+
+
+                <div className="p-6">
+
 
 
                   <h3
 
-                  className="
-                  font-bold
-                  text-lg
-                  text-[#061a3a]
-                  "
+
+                    className="
+                    text-xl
+                    font-bold
+                    text-white
+                    "
 
                   >
 
                     {item.titulo}
 
+
                   </h3>
 
 
-                  <p className="text-gray-500 mt-2">
+
+
+
+                  <p
+
+                    className="
+                    text-gray-400
+                    mt-3
+                    leading-relaxed
+                    "
+
+                  >
 
                     {item.resumo}
 
+
                   </p>
+
+
+
+
+
+
+                  {
+
+                    item.tipo &&
+
+                    <span
+
+                      className="
+                      inline-block
+                      mt-4
+                      px-3
+                      py-1
+                      rounded-full
+                      text-xs
+                      bg-yellow-500/20
+                      text-yellow-400
+                      "
+
+                    >
+
+                      {item.tipo}
+
+
+                    </span>
+
+
+                  }
+
+
+
+
+
+
 
 
 
                   <button
 
 
-                  onClick={()=>
-                    apagarNoticia(item.id)
-                  }
+
+                    onClick={()=>
+
+                      apagarNoticia(item.id)
+
+                    }
 
 
-                  className="
-                  mt-4
-                  text-red-600
-                  flex
-                  items-center
-                  gap-2
-                  "
+
+                    className="
+                    mt-6
+                    flex
+                    items-center
+                    gap-2
+                    text-red-400
+                    hover:text-red-300
+                    transition
+                    "
 
                   >
 
+
                     <Trash2 size={18}/>
 
+
                     Apagar
+
 
 
                   </button>
 
 
+
+
+
                 </div>
 
 
+
+
+
+
               </motion.div>
+
 
 
             ))
@@ -854,17 +1125,29 @@ export default function NoticiasPage(){
           }
 
 
+
           </div>
+
+
 
 
         </section>
 
 
 
+
+
+
+
+
       </motion.div>
 
 
+
+
+
     </main>
+
 
   );
 
