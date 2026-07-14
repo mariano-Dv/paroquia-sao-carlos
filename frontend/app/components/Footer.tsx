@@ -71,7 +71,7 @@ export default function Footer() {
       <div className="border-t border-white/10" />
 
       <div className="text-center text-gray-400 text-xs py-4">
-        © {new Date().getFullYear()} Paróquia São Carlos Luanda
+        © {new Date().getFullYear()} Paróquia São Carlos Lwanda
       </div>
 
     </footer>

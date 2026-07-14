@@ -25,6 +25,9 @@ import { NotificacoesModule } from './notificacoes/notificacoes.module';
 import { GaleriaModule } from './galeria/galeria.module';
 
 
+import { NoticiasModule } from './noticias/noticias.module';
+
+
 
 
 
@@ -55,6 +58,9 @@ import { GaleriaModule } from './galeria/galeria.module';
 
 
     GaleriaModule,
+
+
+    NoticiasModule,
 
 
   ],

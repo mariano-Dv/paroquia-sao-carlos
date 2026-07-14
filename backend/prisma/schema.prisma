@@ -177,24 +177,31 @@ model Culto {
 
 model Noticia {
 
-  id        String   @id @default(uuid())
+  id          String       @id @default(uuid())
 
-  titulo    String
+  titulo      String
 
-  conteudo  String
+  resumo      String
 
-  imagem    String?
+  conteudo    String
 
-  createdAt DateTime @default(now())
+  imagem      String?
 
-  updatedAt DateTime @updatedAt
+  tipo        TipoNoticia  @default(NOTICIA)
 
+  dataEvento  DateTime?
 
+  publicada   Boolean      @default(true)
+
+  destaque    Boolean      @default(false)
+
+  createdAt   DateTime     @default(now())
+
+  updatedAt   DateTime     @updatedAt
 
   @@map("noticias")
 
 }
-
 
 
 
@@ -310,5 +317,15 @@ enum StatusPedido {
   CONCLUIDO
 
   CANCELADO
+
+}
+
+
+
+enum TipoNoticia {
+
+  NOTICIA
+
+  COMUNICADO
 
 }
